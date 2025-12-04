@@ -12,6 +12,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
+import Footer from "./components/Footer"; // Import the new Footer component
 
 const queryClient = new QueryClient();
 
@@ -23,17 +24,20 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <div className="pt-16"> {/* Add padding to account for sticky navbar */}
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/products/:id" element={<ProductDetail />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/about-us" element={<AboutUs />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+            <div className="flex flex-col min-h-screen"> {/* Added flex column for sticky footer */}
+              <Navbar />
+              <div className="flex-grow pt-16"> {/* Add padding to account for sticky navbar */}
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/products/:id" element={<ProductDetail />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/about-us" element={<AboutUs />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+              <Footer /> {/* Render the Footer component */}
             </div>
           </CartProvider>
         </AuthProvider>

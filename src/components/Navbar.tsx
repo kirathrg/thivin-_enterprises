@@ -93,11 +93,11 @@ const Navbar = () => {
         </Button>
         <Button
           variant="ghost"
-          size="icon"
-          className="relative hover:bg-blue-50"
+          className="relative hover:bg-blue-50 text-blue-600 hover:text-blue-700"
           onClick={() => setIsCartDrawerOpen(true)}
         >
-          <ShoppingCart className="h-6 w-6 text-blue-600" />
+          <ShoppingCart className="h-6 w-6" />
+          <span className="hidden lg:inline ml-2">Cart</span>
           {cartItemCount > 0 && (
             <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg">
               {cartItemCount}
@@ -126,8 +126,9 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button variant="ghost" size="icon" onClick={() => setIsAuthModalOpen(true)} className="hover:bg-blue-50/50">
-            <LogIn className="h-6 w-6 text-blue-600" />
+          <Button variant="ghost" onClick={() => setIsAuthModalOpen(true)} className="hover:bg-blue-50/50 flex items-center gap-2">
+            <LogIn className="h-5 w-5 text-blue-600" />
+            <span className="hidden lg:inline text-blue-600">Login / Sign Up</span>
           </Button>
         )}
       </div>
@@ -155,7 +156,7 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[250px] sm:w-[300px] flex flex-col border-l-4 border-blue-300 bg-gradient-to-b from-white to-blue-50/30">
             <SheetHeader>
-              <SheetTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">Menu</SheetTitle>
+              <SheetTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Menu</SheetTitle>
             </SheetHeader>
             <form onSubmit={handleSearchSubmit} className="flex flex-col gap-2">
               <Input
@@ -170,17 +171,17 @@ const Navbar = () => {
               </Button>
             </form>
             <div className="flex flex-col gap-2 mt-4">
-              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-100/50">
                 <Link href="/" className="flex items-center gap-2">
                   <Home className="h-4 w-4" /> Home
                 </Link>
               </Button>
-              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-100/50">
                 <Link href="/products" className="flex items-center gap-2">
                   <Package className="h-4 w-4" /> Products
                 </Link>
               </Button>
-              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-100/50">
                 <Link href="/about-us" className="flex items-center gap-2">
                   <Info className="h-4 w-4" /> About Us
                 </Link>

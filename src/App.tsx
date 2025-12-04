@@ -12,7 +12,8 @@ import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
-import Footer from "./components/Footer"; // Import the new Footer component
+import Footer from "./components/Footer";
+import ProductsPage from "./pages/ProductsPage"; // Import the new ProductsPage
 
 const queryClient = new QueryClient();
 
@@ -24,11 +25,12 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
-            <div className="flex flex-col min-h-screen"> {/* Added flex column for sticky footer */}
+            <div className="flex flex-col min-h-screen">
               <Navbar />
-              <div className="flex-grow pt-16"> {/* Add padding to account for sticky navbar */}
+              <div className="flex-grow pt-16">
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/products" element={<ProductsPage />} /> {/* New route for ProductsPage */}
                   <Route path="/products/:id" element={<ProductDetail />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/profile" element={<Profile />} />
@@ -37,7 +39,7 @@ const App = () => (
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
-              <Footer /> {/* Render the Footer component */}
+              <Footer />
             </div>
           </CartProvider>
         </AuthProvider>

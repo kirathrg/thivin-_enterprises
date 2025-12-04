@@ -59,6 +59,12 @@ const Navbar = () => {
 
       {/* Desktop Navigation Icons */}
       <div className="hidden md:flex items-center gap-4">
+        <Button asChild variant="ghost" className="text-blue-600 hover:text-blue-700">
+          <Link to="/products" className="flex items-center gap-2">
+            <Package className="h-6 w-6" />
+            <span className="hidden lg:inline">Products</span>
+          </Link>
+        </Button>
         <Button
           variant="ghost"
           size="icon"

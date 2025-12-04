@@ -17,9 +17,10 @@ import { Search } from "lucide-react";
 interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
+  onToggle: () => void;
 }
 
-const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
+const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onToggle }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -28,12 +29,12 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        onClose(); // Close if open, open if closed
+        onToggle();
       }
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [onClose]);
+  }, [onToggle]);
 
   useEffect(() => {
     if (search.trim() === "") {

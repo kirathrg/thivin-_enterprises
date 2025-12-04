@@ -77,14 +77,14 @@ const Checkout = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
-      <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">Checkout</h1>
+    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] animate-fade-in">
+      <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-700 to-blue-900 bg-clip-text text-transparent mb-8 animate-fade-in-down">Checkout</h1>
 
       <div className="max-w-2xl mx-auto">
         {step === 1 && (
-          <Card>
+          <Card className="shadow-xl bg-white/90 backdrop-blur-sm border-0 animate-[slideUp_0.6s_ease-out]">
             <CardHeader>
-              <CardTitle className="text-2xl">Shipping Address</CardTitle>
+              <CardTitle className="text-2xl bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Shipping Address</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleShippingSubmit} className="grid gap-4">
@@ -134,7 +134,7 @@ const Checkout = () => {
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white shadow-lg hover:shadow-xl transition-all">
                   Proceed to Payment
                 </Button>
               </form>
@@ -143,9 +143,9 @@ const Checkout = () => {
         )}
 
         {step === 2 && (
-          <Card>
+          <Card className="shadow-xl bg-white/90 backdrop-blur-sm border-0 animate-[slideUp_0.6s_ease-out]">
             <CardHeader>
-              <CardTitle className="text-2xl">Payment Information</CardTitle>
+              <CardTitle className="text-2xl bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">Payment Information</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handlePaymentSubmit} className="grid gap-4">
@@ -191,13 +191,13 @@ const Checkout = () => {
                   <span>Order Total:</span>
                   <span>₹{cartTotal.toLocaleString()}</span>
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white shadow-lg hover:shadow-xl transition-all">
                   Place Order
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setStep(1)}
-                  className="w-full text-blue-600 border-blue-600 hover:bg-blue-50"
+                  className="w-full text-blue-600 border-blue-300 hover:bg-blue-50"
                 >
                   Back to Shipping
                 </Button>
@@ -207,10 +207,13 @@ const Checkout = () => {
         )}
 
         {step === 3 && (
-          <Card className="text-center p-8">
+          <Card className="text-center p-8 shadow-2xl bg-white/90 backdrop-blur-sm border-0 animate-[bounceIn_0.8s_ease-out]">
             <CardHeader>
-              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <CardTitle className="text-3xl text-green-600">Order Placed Successfully!</CardTitle>
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-green-400 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4 relative" />
+              </div>
+              <CardTitle className="text-3xl bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Order Placed Successfully!</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-lg text-gray-700">
@@ -219,8 +222,8 @@ const Checkout = () => {
               <p className="text-md text-gray-600">
                 Your order will be processed and shipped shortly.
               </p>
-              <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white mt-6">
-                <Link to="/">Continue Shopping</Link>
+              <Button asChild className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white mt-6 shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                <Link to="/products">Continue Shopping</Link>
               </Button>
             </CardContent>
           </Card>

@@ -10,16 +10,18 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "1",
-    name: "Royal Household Facilitation Pack",
-    price: 9999,
+    name: "Household Facilitation Pack",
+    price: 5000,
     description: "The ultimate home setup kit. Perfect for new families.",
     itemsIncluded: [
-      "3-Burner Glass Top Gas Stove",
-      "Heavy Duty Mixer Grinder",
-      "32-piece Stainless Steel Dinner Set",
-      "Stainless Steel Storage Containers",
+      "High-Speed Table Fan",
+      "Stainless Steel Electric Kettle",
+      "Water Dispenser 5L",
+      "Insulated Casserole",
+      "Akari LED Emergency Light",
+      "5L Stainless Steel Drum",
     ],
-    imageUrl: "/pasted-image-2025-12-04T03-08-20-815Z.png", // Updated with new image
+    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.23 PM.jpeg",
   },
   {
     id: "2",
@@ -27,26 +29,25 @@ export const products: Product[] = [
     price: 5000,
     description: "Daily essentials to beat the heat and keep the kitchen running.",
     itemsIncluded: [
-      "High-speed Table Fan (Red/Black)",
-      "5kg Premium Ponni Rice",
+      "Aluminium Pressure Cooker (3L)",
       "Electric Kettle (1.8L)",
-      "Rechargeable LED Emergency Light",
-      "Insulated Casserole",
+      "Teal Water Dispenser (5L)",
+      "Akari rechargeable LED light",
+      "Stainless Steel Drum (10L)",
     ],
-    imageUrl: "/pasted-image-2025-12-04T03-08-05-643Z.png", // Updated with new image
+    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.22 PM.jpeg",
   },
   {
     id: "3",
     name: "Kitchen Starter Combo",
-    price: 3499,
+    price: 9999,
     description: "High-quality basics for every kitchen.",
     itemsIncluded: [
-      "3L Aluminium Pressure Cooker",
-      "Large Stainless Steel Storage Drum",
-      "Electric Kettle",
-      "LED Emergency Light",
-      "Water Dispenser Set",
+      "Stainless Steel Utensil Set",
+      "Surya Gas Stove 3-Burner",
+      "Mixer Grinder",
+      "Cutlery set",
     ],
-    imageUrl: "/WhatsApp Image 2025-12-03 at 9.40.22 PM.jpeg", // Keeping existing image for now
+    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.21 PM.jpeg",
   },
 ];

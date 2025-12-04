@@ -29,42 +29,47 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
-      <Button asChild variant="ghost" className="mb-6 text-blue-600 hover:text-blue-700">
-        <Link to="/" className="flex items-center gap-2">
+    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] animate-fade-in">
+      <Button asChild variant="ghost" className="mb-6 text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+        <Link to="/products" className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
       </Button>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="flex justify-center">
-          {/* Image Placeholder: Replace with actual product image */}
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="w-full max-w-md h-auto object-cover rounded-lg shadow-lg"
-          />
+        <div className="flex justify-center animate-slide-in-left">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="relative w-full max-w-md h-auto object-cover rounded-lg shadow-2xl"
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold text-gray-900">{product.name}</h1>
-          <p className="text-3xl font-semibold text-blue-600">
+        <div className="flex flex-col gap-4 animate-slide-in-right">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">{product.name}</h1>
+          <p className="text-3xl font-semibold bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">
             ₹{product.price.toLocaleString()}
           </p>
-          <p className="text-gray-700 leading-relaxed">{product.description}</p>
+          <p className="text-gray-700 leading-relaxed text-lg">{product.description}</p>
 
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl shadow-md">
+            <h2 className="text-xl font-semibold text-gray-800 mb-3">
               Items Included:
             </h2>
-            <ul className="list-disc list-inside text-gray-600 space-y-1">
+            <ul className="space-y-2">
               {product.itemsIncluded.map((item, index) => (
-                <li key={index}>{item}</li>
+                <li key={index} className="flex items-start gap-2 text-gray-700">
+                  <span className="inline-block w-2 h-2 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mt-2"></span>
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
 
           <Button
-            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg"
+            className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
             onClick={() => addItem(product)}
           >
             Add to Cart

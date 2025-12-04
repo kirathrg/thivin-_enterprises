@@ -4,7 +4,8 @@ import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { products } from "@/data/products";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard"; // Keep ProductCard for individual use if needed, but not directly in the grid
+import ProductCarousel from "@/components/ProductCarousel"; // Import the new ProductCarousel
 import { Truck, Headset, ShieldCheck } from "lucide-react";
 import React from "react";
 
@@ -26,16 +27,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Products Grid */}
+      {/* Featured Products Carousel */}
       <section className="container mx-auto py-16 px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-12">
           Featured Combo Packs
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ProductCarousel products={products} /> {/* Use the ProductCarousel here */}
       </section>
 
       {/* Trust Badges */}

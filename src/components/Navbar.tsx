@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -137,55 +137,57 @@ const Navbar = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="relative hover:bg-purple-50/50"
+          className="relative hover:bg-blue-50"
           onClick={() => setIsCartDrawerOpen(true)}
         >
-          <ShoppingCart className="h-6 w-6 text-purple-600" />
+          <ShoppingCart className="h-6 w-6 text-blue-600" />
           {cartItemCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white shadow-lg">
+            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg">
               {cartItemCount}
             </Badge>
           )}
         </Button>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="hover:bg-purple-50/50">
-              <Menu className="h-6 w-6 text-purple-600" />
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+              <Menu className="h-6 w-6 text-blue-600" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[250px] sm:w-[300px] flex flex-col border-l-4 border-purple-300 bg-gradient-to-b from-white to-purple-50/30">
-            <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">Menu</h2>
+          <SheetContent side="right" className="w-[250px] sm:w-[300px] flex flex-col border-l-4 border-blue-300 bg-gradient-to-b from-white to-blue-50/30">
+            <SheetHeader>
+              <SheetTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">Menu</SheetTitle>
+            </SheetHeader>
             <form onSubmit={handleSearchSubmit} className="flex flex-col gap-2">
               <Input
                 type="text"
                 placeholder="Search..."
-                className="w-full focus-visible:ring-purple-600 border-purple-200"
+                className="w-full focus-visible:ring-blue-600 border-blue-200"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button type="submit" className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white flex items-center gap-2 justify-center">
+              <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white flex items-center gap-2 justify-center">
                 <Search className="h-4 w-4" /> Search
               </Button>
             </form>
             <div className="flex flex-col gap-2 mt-4">
-              <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                 <Link href="/" className="flex items-center gap-2">
                   <Home className="h-4 w-4" /> Home
                 </Link>
               </Button>
-              <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                 <Link href="/products" className="flex items-center gap-2">
                   <Package className="h-4 w-4" /> Products
                 </Link>
               </Button>
-              <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
+              <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                 <Link href="/about-us" className="flex items-center gap-2">
                   <Info className="h-4 w-4" /> About Us
                 </Link>
               </Button>
               {isAuthenticated ? (
                 <>
-                  <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
+                  <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                     <Link href="/profile" className="flex items-center gap-2">
                       <UserRoundCog className="h-4 w-4" /> Profile
                     </Link>
@@ -202,7 +204,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setIsAuthModalOpen(true)}
-                  className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50"
+                  className="justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                 >
                   <LogIn className="h-4 w-4 mr-2" /> Login / Sign Up
                 </Button>

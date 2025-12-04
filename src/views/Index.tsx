@@ -6,7 +6,7 @@ import Link from "next/link";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard"; // Keep ProductCard for individual use if needed, but not directly in the grid
 import ProductCarousel from "@/components/ProductCarousel"; // Import the new ProductCarousel
-import { Truck, Headset, ShieldCheck } from "lucide-react";
+import { Truck, Headset, ShieldCheck, Phone, MessageCircle } from "lucide-react";
 import React from "react";
 
 const Index = () => {
@@ -110,6 +110,11 @@ const Index = () => {
           <div className="animate-[slideUp_0.8s_ease-out]" style={{animationDelay: '0.2s'}}>
             <ProductCarousel products={products} /> {/* Use the ProductCarousel here */}
           </div>
+          <div className="flex justify-center mt-8 animate-fade-in" style={{animationDelay: '0.4s'}}>
+            <Button asChild className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105">
+              <Link href="/products">View More Products</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -162,6 +167,29 @@ const Index = () => {
       </section>
 
       <MadeWithDyad />
+
+      {/* Floating Contact Buttons */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
+        {/* WhatsApp Button */}
+        <a
+          href="https://wa.me/911234567890"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 animate-[float_3s_ease-in-out_infinite]"
+          aria-label="Contact on WhatsApp"
+        >
+          <MessageCircle className="h-6 w-6" />
+        </a>
+        
+        {/* Call Button */}
+        <a
+          href="tel:+911234567890"
+          className="group bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 animate-[float_3s_ease-in-out_infinite_0.5s]"
+          aria-label="Call us"
+        >
+          <Phone className="h-6 w-6" />
+        </a>
+      </div>
     </div>
   );
 };

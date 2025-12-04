@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Home, Package, Info } from "lucide-react";
+import { Home, Package, Info, Facebook, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -44,12 +44,43 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info (Placeholder) */}
+          {/* Contact Info */}
           <div className="flex flex-col items-center md:items-start">
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <p className="text-gray-400 text-sm">Email: info@thivin.com</p>
             <p className="text-gray-400 text-sm">Phone: +91 123 456 7890</p>
-            <p className="text-gray-400 text-sm">Address: 123 Main St, City, State, 12345</p>
+            <p className="text-gray-400 text-sm mb-4">Address: 123 Main St, City, State, 12345</p>
+            
+            {/* Social Media Links */}
+            <div className="flex gap-4 mt-2">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-6 w-6" />
+              </a>
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-pink-400 transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-300 transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="h-6 w-6" />
+              </a>
+            </div>
           </div>
         </div>
 

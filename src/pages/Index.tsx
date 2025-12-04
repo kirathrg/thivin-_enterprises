@@ -2,7 +2,7 @@
 
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard"; // Keep ProductCard for individual use if needed, but not directly in the grid
 import ProductCarousel from "@/components/ProductCarousel"; // Import the new ProductCarousel
@@ -53,10 +53,10 @@ const Index = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-scale-in" style={{animationDelay: '0.3s'}}>
             <Button asChild className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-4 text-lg rounded-full shadow-2xl hover:scale-105 transition-all hover:shadow-white/50 font-semibold">
-              <Link to="/products">Shop Now</Link>
+              <Link href="/products">Shop Now</Link>
             </Button>
             <Button asChild className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-4 text-lg rounded-full shadow-2xl hover:scale-105 transition-all hover:shadow-white/50 font-semibold">
-              <Link to="/about-us">Learn More</Link>
+              <Link href="/about-us">Learn More</Link>
             </Button>
           </div>
           

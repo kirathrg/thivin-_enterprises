@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import {
   Sheet,
   SheetContent,
@@ -85,15 +85,23 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <span>Total:</span>
             <span>₹{cartTotal.toLocaleString()}</span>
           </div>
-          <Button
-            asChild
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-            disabled={cartItems.length === 0}
-          >
-            <Link to="/checkout" onClick={onClose}>
+          {cartItems.length === 0 ? (
+            <Button
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              disabled
+            >
               Proceed to Checkout
-            </Link>
-          </Button>
+            </Button>
+          ) : (
+            <Button
+              asChild
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Link href="/checkout" onClick={onClose}>
+                Proceed to Checkout
+              </Link>
+            </Button>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

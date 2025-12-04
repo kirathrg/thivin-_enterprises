@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Home, Package, Info } from "lucide-react";
 
 const Footer = () => {
@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="flex flex-col items-center md:items-start">
-            <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl mb-4">
+            <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl mb-4">
               <Home className="h-6 w-6" />
               <span>Thivin Enterprises</span>
             </Link>
@@ -27,17 +27,17 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link href="/" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
                   <Home className="h-4 w-4" /> Home
                 </Link>
               </li>
               <li>
-                <Link to="/products" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link href="/products" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
                   <Package className="h-4 w-4" /> Products
                 </Link>
               </li>
               <li>
-                <Link to="/about-us" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link href="/about-us" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">
                   <Info className="h-4 w-4" /> About Us
                 </Link>
               </li>

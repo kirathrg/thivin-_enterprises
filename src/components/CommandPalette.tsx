@@ -11,7 +11,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { products } from "@/data/products";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
 interface CommandPaletteProps {
@@ -21,7 +21,7 @@ interface CommandPaletteProps {
 }
 
 const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onToggle }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -50,10 +50,10 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onTogg
   }, [search]);
 
   const handleSelectProduct = useCallback((productId: string) => {
-    navigate(`/products/${productId}`);
+    router.push(`/products/${productId}`);
     onClose();
     setSearch(""); // Clear search after selection
-  }, [navigate, onClose]);
+  }, [router, onClose]);
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out hover-lift bg-white/90 backdrop-blur-sm border-0 animate-fade-in">
-      <Link to={`/products/${product.id}`} className="block relative overflow-hidden group">
+      <Link href={`/products/${product.id}`} className="block relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
         <img
           src={product.imageUrl}
@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </Link>
       <CardHeader className="flex-grow">
         <CardTitle className="text-xl font-semibold text-gray-800 line-clamp-2">
-          <Link to={`/products/${product.id}`} className="hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 hover:bg-clip-text hover:text-transparent transition-all">
+          <Link href={`/products/${product.id}`} className="hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 hover:bg-clip-text hover:text-transparent transition-all">
             {product.name}
           </Link>
         </CardTitle>

@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Package, MapPin, LogOut, User as UserIcon } from "lucide-react";
 
 const Profile = () => {
@@ -18,7 +18,7 @@ const Profile = () => {
           Please log in to view your profile.
         </p>
         <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Link to="/">Go to Home</Link>
+          <Link href="/">Go to Home</Link>
         </Button>
       </div>
     );
@@ -46,7 +46,7 @@ const Profile = () => {
           <CardContent className="p-0">
             <p className="text-gray-600">No orders placed yet.</p>
             <Button variant="link" asChild className="text-blue-600 hover:text-blue-700 mt-2">
-              <Link to="/">Shop Now</Link>
+              <Link href="/">Shop Now</Link>
             </Button>
           </CardContent>
         </Card>

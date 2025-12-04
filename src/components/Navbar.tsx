@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Home,
   ShoppingCart,
@@ -40,19 +41,19 @@ const Navbar = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate("/products");
+      router.push("/products");
     }
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-lg p-4 flex items-center justify-between border-b border-blue-200">
       {/* Logo */}
-      <Link to="/" className="flex items-center gap-3 font-bold text-xl group">
+      <Link href="/" className="flex items-center gap-3 font-bold text-xl group">
         <img 
           src="/logo.png" 
           alt="Thivin Enterprises Logo" 
@@ -79,13 +80,13 @@ const Navbar = () => {
       {/* Desktop Navigation Icons */}
       <div className="hidden md:flex items-center gap-4">
         <Button asChild variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-          <Link to="/products" className="flex items-center gap-2">
+          <Link href="/products" className="flex items-center gap-2">
             <Package className="h-6 w-6" />
             <span className="hidden lg:inline">Products</span>
           </Link>
         </Button>
         <Button asChild variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-          <Link to="/about-us" className="flex items-center gap-2">
+          <Link href="/about-us" className="flex items-center gap-2">
             <Info className="h-6 w-6" />
             <span className="hidden lg:inline">About Us</span>
           </Link>
@@ -115,7 +116,7 @@ const Navbar = () => {
               <DropdownMenuLabel className="text-blue-700">{user?.name || "My Account"}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild className="hover:bg-blue-50">
-                <Link to="/profile" className="flex items-center gap-2 text-blue-600">
+                <Link href="/profile" className="flex items-center gap-2 text-blue-600">
                   <UserRoundCog className="h-4 w-4" /> Profile
                 </Link>
               </DropdownMenuItem>
@@ -168,24 +169,24 @@ const Navbar = () => {
             </form>
             <div className="flex flex-col gap-2 mt-4">
               <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
-                <Link to="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                   <Home className="h-4 w-4" /> Home
                 </Link>
               </Button>
               <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
-                <Link to="/products" className="flex items-center gap-2">
+                <Link href="/products" className="flex items-center gap-2">
                   <Package className="h-4 w-4" /> Products
                 </Link>
               </Button>
               <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
-                <Link to="/about-us" className="flex items-center gap-2">
+                <Link href="/about-us" className="flex items-center gap-2">
                   <Info className="h-4 w-4" /> About Us
                 </Link>
               </Button>
               {isAuthenticated ? (
                 <>
                   <Button asChild variant="ghost" className="justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-100/50">
-                    <Link to="/profile" className="flex items-center gap-2">
+                    <Link href="/profile" className="flex items-center gap-2">
                       <UserRoundCog className="h-4 w-4" /> Profile
                     </Link>
                   </Button>

@@ -21,7 +21,7 @@ export const products: Product[] = [
       "Akari LED Emergency Light",
       "5L Stainless Steel Drum",
     ],
-    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.23 PM.jpeg",
+    imageUrl: "/product-3.jpeg",
   },
   {
     id: "2",
@@ -35,7 +35,7 @@ export const products: Product[] = [
       "Akari rechargeable LED light",
       "Stainless Steel Drum (10L)",
     ],
-    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.22 PM.jpeg",
+    imageUrl: "/product-2.jpeg",
   },
   {
     id: "3",
@@ -48,6 +48,6 @@ export const products: Product[] = [
       "Mixer Grinder",
       "Cutlery set",
     ],
-    imageUrl: "/src/assets/WhatsApp Image 2025-12-03 at 9.40.21 PM.jpeg",
+    imageUrl: "/product-1.jpeg",
   },
 ];

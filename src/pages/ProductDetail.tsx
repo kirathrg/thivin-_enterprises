@@ -1,14 +1,16 @@
 "use client";
 
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { ArrowLeft } from "lucide-react";
 
 const ProductDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = params?.id as string;
   const product = products.find((p) => p.id === id);
   const { addItem } = useCart();
 
@@ -20,7 +22,7 @@ const ProductDetail = () => {
           The product you are looking for does not exist.
         </p>
         <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Link to="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
         </Button>
@@ -31,7 +33,7 @@ const ProductDetail = () => {
   return (
     <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] animate-fade-in">
       <Button asChild variant="ghost" className="mb-6 text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-        <Link to="/products" className="flex items-center gap-2">
+        <Link href="/products" className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
       </Button>

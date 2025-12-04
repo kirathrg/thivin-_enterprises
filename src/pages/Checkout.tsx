@@ -5,14 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/context/CartContext";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Confirmation
   const [shippingDetails, setShippingDetails] = useState({
     fullName: "",
@@ -68,7 +69,7 @@ const Checkout = () => {
           Please add items to your cart before proceeding to checkout.
         </p>
         <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Link to="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" /> Continue Shopping
           </Link>
         </Button>
@@ -223,7 +224,7 @@ const Checkout = () => {
                 Your order will be processed and shipped shortly.
               </p>
               <Button asChild className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white mt-6 shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                <Link to="/products">Continue Shopping</Link>
+                <Link href="/products">Continue Shopping</Link>
               </Button>
             </CardContent>
           </Card>

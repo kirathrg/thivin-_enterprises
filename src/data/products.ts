@@ -19,7 +19,7 @@ export const products: Product[] = [
       "32-piece Stainless Steel Dinner Set",
       "Stainless Steel Storage Containers",
     ],
-    imageUrl: "https://via.placeholder.com/400x300?text=Royal+Pack", // Placeholder image for kitchen appliances
+    imageUrl: "/WhatsApp Image 2025-12-03 at 9.40.21 PM.jpeg", // Actual image for Royal Pack
   },
   {
     id: "2",
@@ -33,7 +33,7 @@ export const products: Product[] = [
       "Rechargeable LED Emergency Light",
       "Insulated Casserole",
     ],
-    imageUrl: "https://via.placeholder.com/400x300?text=Essential+Bundle", // Placeholder image for home essentials
+    imageUrl: "/WhatsApp Image 2025-12-03 at 9.40.23 PM.jpeg", // Actual image for Essential Bundle
   },
   {
     id: "3",
@@ -47,6 +47,6 @@ export const products: Product[] = [
       "LED Emergency Light",
       "Water Dispenser Set",
     ],
-    imageUrl: "https://via.placeholder.com/400x300?text=Kitchen+Starter", // Placeholder image for kitchen basics
+    imageUrl: "/WhatsApp Image 2025-12-03 at 9.40.22 PM.jpeg", // Actual image for Kitchen Starter
   },
 ];

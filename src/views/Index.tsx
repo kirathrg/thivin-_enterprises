@@ -175,7 +175,7 @@ const Index = () => {
           href="https://wa.me/911234567890"
           target="_blank"
           rel="noopener noreferrer"
-          className="group bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110"
+          className="group bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 animate-[float_3s_ease-in-out_infinite]"
           aria-label="Contact on WhatsApp"
         >
           <MessageCircle className="h-6 w-6" />
@@ -184,7 +184,7 @@ const Index = () => {
         {/* Call Button */}
         <a
           href="tel:+911234567890"
-          className="group bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110"
+          className="group bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 animate-[float_3s_ease-in-out_infinite_0.5s]"
           aria-label="Call us"
         >
           <Phone className="h-6 w-6" />

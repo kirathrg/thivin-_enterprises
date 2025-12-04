@@ -5,8 +5,11 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCart } from "@/context/CartContext";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Package, CheckCircle } from "lucide-react";
 
 const ProductDetail = () => {
   const params = useParams();
@@ -31,49 +34,63 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] animate-fade-in">
-      <Button asChild variant="ghost" className="mb-6 text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]\">\n      <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100">
         <Link href="/products" className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
       </Button>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="flex justify-center animate-slide-in-left">
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="relative w-full max-w-md h-auto object-cover rounded-lg shadow-2xl"
-            />
+        <Card className="overflow-hidden border-gray-200 hover:shadow-lg transition-shadow">
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="w-full h-auto object-cover"
+          />
+        </Card>
+        
+        <div className="flex flex-col gap-6">
+          <div>
+            <Badge className="mb-4 bg-primary">Featured Product</Badge>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
+            <p className="text-3xl font-semibold text-gray-900">
+              ₹{product.price.toLocaleString()}
+            </p>
           </div>
-        </div>
-        <div className="flex flex-col gap-4 animate-slide-in-right">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">{product.name}</h1>
-          <p className="text-3xl font-semibold bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">
-            ₹{product.price.toLocaleString()}
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">{product.description}</p>
+          
+          <Separator />
+          
+          <Card className="border-gray-200 bg-gray-50">
+            <CardHeader>
+              <CardDescription className="text-gray-700 leading-relaxed text-base">{product.description}</CardDescription>
+            </CardHeader>
+          </Card>
 
-          <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold text-gray-800 mb-3">
-              Items Included:
-            </h2>
-            <ul className="space-y-2">
-              {product.itemsIncluded.map((item, index) => (
-                <li key={index} className="flex items-start gap-2 text-gray-700">
-                  <span className="inline-block w-2 h-2 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mt-2"></span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Card className="border-gray-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Package className="h-5 w-5 text-primary" />
+                Items Included
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                {product.itemsIncluded.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 text-gray-700">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
 
           <Button
-            className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+            size="lg"
+            className="w-full bg-primary hover:bg-primary/90 text-white"
             onClick={() => addItem(product)}
           >
+            <ShoppingCart className="h-5 w-5 mr-2" />
             Add to Cart
           </Button>
         </div>

@@ -5,34 +5,34 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 215 25% 27%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 27%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 27%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 215 25% 27%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 215 25% 27%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -97,29 +97,40 @@
 
   body {
     @apply text-foreground;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.04) 0%, transparent 50%),
-      linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e0f2fe 50%, #dbeafe 75%, #f0f9ff 100%);
-    background-attachment: fixed;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background: #f9fafb;
+    position: relative;
+    overflow-x: hidden;
   }
   
-  body::before {
+  main::before {
     content: '';
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 256px;
+    right: 0;
     height: 100%;
-    opacity: 0.3;
-    z-index: -1;
-    background-image: 
-      linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-      linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px);
-    background-size: 80px 80px;
+    z-index: 0;
     pointer-events: none;
-    animation: gridMove 20s linear infinite;
+    background-image: 
+      radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridMove 30s linear infinite;
+  }
+  
+  main::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 256px;
+    right: 0;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background: 
+      radial-gradient(ellipse 800px 600px at 20% 30%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 800px at 80% 70%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+    animation: floatGradient 15s ease-in-out infinite;
   }
   
   @keyframes gridMove {
@@ -127,7 +138,22 @@
       transform: translate(0, 0);
     }
     100% {
-      transform: translate(80px, 80px);
+      transform: translate(40px, 40px);
+    }
+  }
+  
+  @keyframes floatGradient {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1) translate(0, 0);
+    }
+    33% {
+      opacity: 0.8;
+      transform: scale(1.1) translate(3%, -3%);
+    }
+    66% {
+      opacity: 0.9;
+      transform: scale(0.95) translate(-3%, 3%);
     }
   }
 }
@@ -172,6 +198,12 @@
                 linear-gradient(135deg, #667eea 0%, #764ba2 100%) border-box;
     border: 2px solid transparent;
   }
+}
+
+/* Ensure content is above background */
+nav, main, section, footer, header {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeIn {
@@ -316,5 +348,132 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+/* Animation Delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}
+
+.delay-1000 {
+  animation-delay: 1000ms;
+}
+
+/* Scroll Down Animation */
+@keyframes scroll-indicator {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.animate-scroll-indicator {
+  animation: scroll-indicator 2s ease-in-out infinite;
+}
+
+/* Arrow Down Animation */
+@keyframes arrow-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.6;
+  }
+}
+
+.animate-arrow-down {
+  animation: arrow-down 1.5s ease-in-out infinite;
+}
+
+/* Smooth scroll offset for fixed header */
+.scroll-mt-16 {
+  scroll-margin-top: 4rem;
+}
+
+/* Product Card Animations */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rotateY {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+/* Perspective for 3D effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotate-y-5 {
+  transform: rotateY(5deg);
+}
+
+/* Card hover 3D tilt effect */
+.card-3d-hover {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.card-3d-hover:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.02);
+}
+
+/* Trust Badge Flip Animation */
+@keyframes flipInX {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg);
+  }
+}
+
+/* Pulse Glow Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(59, 130, 246, 0);
   }
 }

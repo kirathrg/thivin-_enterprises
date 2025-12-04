@@ -7,13 +7,14 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { SearchProvider } from "./context/SearchContext"; // Import SearchProvider
 import Navbar from "./components/Navbar";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
 import Footer from "./components/Footer";
-import ProductsPage from "./pages/ProductsPage"; // Import the new ProductsPage
+import ProductsPage from "./pages/ProductsPage";
 
 const queryClient = new QueryClient();
 
@@ -25,22 +26,24 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
-            <div className="flex flex-col min-h-screen">
-              <Navbar />
-              <div className="flex-grow pt-16">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/products" element={<ProductsPage />} /> {/* New route for ProductsPage */}
-                  <Route path="/products/:id" element={<ProductDetail />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+            <SearchProvider> {/* Wrap with SearchProvider */}
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <div className="flex-grow pt-16">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/products/:id" element={<ProductDetail />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </div>
+                <Footer />
               </div>
-              <Footer />
-            </div>
+            </SearchProvider>
           </CartProvider>
         </AuthProvider>
       </BrowserRouter>

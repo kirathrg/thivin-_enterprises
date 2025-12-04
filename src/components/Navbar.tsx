@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import {
   Home,
   ShoppingCart,
@@ -20,6 +20,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useSearch } from "@/context/SearchContext"; // Import useSearch
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
 import {
@@ -34,8 +35,17 @@ import {
 const Navbar = () => {
   const { cartItemCount } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
+  const { searchQuery, setSearchQuery } = useSearch(); // Use search context
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate("/products"); // Navigate to products page on search
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md p-4 flex items-center justify-between">
@@ -46,16 +56,18 @@ const Navbar = () => {
       </Link>
 
       {/* Search Bar (Desktop) */}
-      <div className="hidden md:flex flex-1 max-w-md mx-4">
+      <form onSubmit={handleSearchSubmit} className="hidden md:flex flex-1 max-w-md mx-4">
         <Input
           type="text"
           placeholder="Search products..."
           className="w-full rounded-l-md border-r-0 focus-visible:ring-blue-600"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700 text-white">
+        <Button type="submit" className="rounded-l-none bg-blue-600 hover:bg-blue-700 text-white">
           <Search className="h-4 w-4" />
         </Button>
-      </div>
+      </form>
 
       {/* Desktop Navigation Icons */}
       <div className="hidden md:flex items-center gap-4">
@@ -129,12 +141,19 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[250px] sm:w-[300px] flex flex-col">
             <h2 className="text-xl font-bold text-blue-600 mb-4">Menu</h2>
-            <div className="flex flex-col gap-2">
+            <form onSubmit={handleSearchSubmit} className="flex flex-col gap-2">
               <Input
                 type="text"
                 placeholder="Search..."
                 className="w-full focus-visible:ring-blue-600"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 justify-center">
+                <Search className="h-4 w-4" /> Search
+              </Button>
+            </form>
+            <div className="flex flex-col gap-2 mt-4">
               <Button asChild variant="ghost" className="justify-start text-blue-600 hover:text-blue-700">
                 <Link to="/" className="flex items-center gap-2">
                   <Home className="h-4 w-4" /> Home

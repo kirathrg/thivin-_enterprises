@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import {
   Home,
   ShoppingCart,
@@ -20,9 +20,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
-import { useSearch } from "@/context/SearchContext"; // Import useSearch
+import { useSearch } from "@/context/SearchContext";
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
+import CommandPalette from "./CommandPalette"; // Import the new CommandPalette
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,15 +36,16 @@ import {
 const Navbar = () => {
   const { cartItemCount } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
-  const { searchQuery, setSearchQuery } = useSearch(); // Use search context
+  const { searchQuery, setSearchQuery } = useSearch();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false); // State for CommandPalette
+  const navigate = useNavigate();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate("/products"); // Navigate to products page on search
+      navigate("/products");
     }
   };
 
@@ -55,19 +57,20 @@ const Navbar = () => {
         <span>Thivin Enterprises</span>
       </Link>
 
-      {/* Search Bar (Desktop) */}
-      <form onSubmit={handleSearchSubmit} className="hidden md:flex flex-1 max-w-md mx-4">
-        <Input
-          type="text"
-          placeholder="Search products..."
-          className="w-full rounded-l-md border-r-0 focus-visible:ring-blue-600"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <Button type="submit" className="rounded-l-none bg-blue-600 hover:bg-blue-700 text-white">
-          <Search className="h-4 w-4" />
+      {/* Search Bar (Desktop) - Now a button to open Command Palette */}
+      <div className="hidden md:flex flex-1 max-w-md mx-4">
+        <Button
+          variant="outline"
+          className="w-full justify-start text-muted-foreground"
+          onClick={() => setIsCommandPaletteOpen(true)}
+        >
+          <Search className="h-4 w-4 mr-2" />
+          Search products...
+          <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            <span className="text-xs">⌘</span>K
+          </kbd>
         </Button>
-      </form>
+      </div>
 
       {/* Desktop Navigation Icons */}
       <div className="hidden md:flex items-center gap-4">
@@ -200,6 +203,7 @@ const Navbar = () => {
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
+      <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
     </nav>
   );
 };

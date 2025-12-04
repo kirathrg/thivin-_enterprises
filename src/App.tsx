@@ -5,6 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import ProductDetail from "./pages/ProductDetail";
+import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
+import AboutUs from "./pages/AboutUs";
 
 const queryClient = new QueryClient();
 
@@ -14,11 +21,22 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <div className="pt-16"> {/* Add padding to account for sticky navbar */}
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products/:id" element={<ProductDetail />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </CartProvider>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

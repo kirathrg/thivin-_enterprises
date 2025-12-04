@@ -34,10 +34,8 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
               opacity: 0,
             }}
           >
-            <div className="p-1 group perspective-1000">
-              <div className="transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:rotate-y-5">
-                <ProductCard product={product} />
-              </div>
+            <div className="p-1">
+              <ProductCard product={product} />
             </div>
           </CarouselItem>
         ))}

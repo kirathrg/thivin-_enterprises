@@ -66,7 +66,7 @@ const Checkout = () => {
 
   if (cartItems.length === 0 && step < 3) {
     return (
-      <div className="container mx-auto p-4 text-center min-h-[calc(100vh-64px)] flex flex-col items-center justify-center">
+      <div className="container mx-auto p-4 text-center min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-white relative z-10">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h1>
         <p className="text-lg text-gray-600 mb-6">
           Please add items to your cart before proceeding to checkout.
@@ -81,7 +81,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
+    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] bg-white relative z-10">
       <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">Checkout</h1>
       
       {step < 3 && (

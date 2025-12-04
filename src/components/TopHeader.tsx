@@ -72,14 +72,14 @@ const TopHeader = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-0">
-            <SheetHeader className="h-14 flex items-center px-4 border-b border-gray-200">
+            <SheetHeader className="h-14 flex items-center justify-center px-4 border-b border-gray-200">
               <SheetTitle className="flex items-center gap-2 text-gray-900 font-semibold">
                 <img 
                   src="/logo.png" 
                   alt="Logo" 
-                  className="h-8 w-8 object-contain rounded-full"
+                  className="h-8 w-8 object-contain rounded-full flex-shrink-0"
                 />
-                <span className="text-sm">Thivin Enterprises</span>
+                <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col p-3">

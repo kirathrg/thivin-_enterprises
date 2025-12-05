@@ -63,11 +63,11 @@ const TopHeader = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 md:left-64 right-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center px-3 md:px-6 justify-between">
+      <header className="fixed top-0 left-0 md:left-64 right-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center px-2 md:px-6 justify-between">
         {/* Mobile Menu Button */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden mr-1 hover:bg-gray-100">
+            <Button variant="ghost" size="icon" className="md:hidden mr-0.5 hover:bg-gray-100 h-10 w-10">
               <Menu className="h-6 w-6 text-gray-700" />
             </Button>
           </SheetTrigger>

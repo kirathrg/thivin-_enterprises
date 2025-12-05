@@ -39,12 +39,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </CardContent>
       <CardFooter className="pt-3 md:pt-4 px-3 md:px-6 pb-3 md:pb-6">
         <Button
-          className="w-full bg-primary hover:bg-primary/90 text-white flex items-center justify-center gap-2 h-9 md:h-10 text-sm md:text-base transition-all duration-300 md:hover:scale-105 md:hover:shadow-lg active:scale-95"
+          className="w-full bg-primary hover:bg-primary/90 text-white flex items-center justify-center gap-2 h-11 md:h-10 text-sm md:text-base transition-all duration-300 md:hover:scale-105 md:hover:shadow-lg active:scale-95 font-semibold"
           onClick={() => addItem(product)}
         >
-          <ShoppingCart className="h-3.5 w-3.5 md:h-4 md:w-4 transition-transform md:group-hover:rotate-12" /> 
-          <span className="hidden sm:inline">Add to Cart</span>
-          <span className="sm:hidden">Add</span>
+          <ShoppingCart className="h-4 w-4 md:h-4 md:w-4 transition-transform md:group-hover:rotate-12" /> 
+          <span>Add to Cart</span>
         </Button>
       </CardFooter>
     </Card>

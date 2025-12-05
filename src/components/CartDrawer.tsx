@@ -28,15 +28,15 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="flex flex-col w-full sm:max-w-lg">
+      <SheetContent className="flex flex-col w-full sm:max-w-lg p-4 sm:p-6">
         <SheetHeader>
-          <SheetTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex items-center gap-2">
-            <ShoppingBag className="h-6 w-6 text-blue-600" />
+          <SheetTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex items-center gap-2">
+            <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
             Your Cart
-            <Badge className="ml-2 bg-blue-600">{cartItemCount}</Badge>
+            <Badge className="ml-2 bg-blue-600 text-xs sm:text-sm">{cartItemCount}</Badge>
           </SheetTitle>
         </SheetHeader>
-        <Separator className="my-4" />
+        <Separator className="my-3 sm:my-4" />
         <ScrollArea className="flex-1 pr-4">
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">

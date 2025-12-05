@@ -27,7 +27,7 @@ interface CommandDialogProps extends DialogProps {}
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent className="overflow-hidden p-0 shadow-lg max-w-[90%] mx-auto rounded-2xl">
+      <DialogContent className="overflow-hidden p-0 shadow-lg max-w-[90%] sm:max-w-2xl mx-auto rounded-2xl">
         <VisuallyHidden.Root>
           <DialogTitle>Search Command</DialogTitle>
         </VisuallyHidden.Root>

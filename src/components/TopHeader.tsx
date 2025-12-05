@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Search,
@@ -13,6 +13,7 @@ import {
   Home,
   Package,
   Info,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,8 +45,34 @@ const TopHeader = () => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
 
   const mainNavigation = [
     { href: "/", icon: Home, label: "Dashboard" },
@@ -63,11 +90,11 @@ const TopHeader = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 md:left-64 right-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center px-2 md:px-6 justify-between">
+      <header className="fixed top-0 left-0 md:left-64 right-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center px-3 md:px-6 justify-between">
         {/* Mobile Menu Button */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden mr-0.5 hover:bg-gray-100 h-10 w-10">
+            <Button variant="ghost" size="icon" className="md:hidden mr-1 hover:bg-gray-100">
               <Menu className="h-6 w-6 text-gray-700" />
             </Button>
           </SheetTrigger>
@@ -139,6 +166,19 @@ const TopHeader = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-1 md:gap-2 ml-auto">
+          {/* PWA Install Button */}
+          {showInstallButton && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-gray-100 text-gray-700 hover:text-gray-900"
+              onClick={handleInstallClick}
+              title="Install App"
+            >
+              <Download className="h-5 w-5" />
+            </Button>
+          )}
+
           {/* Cart Button */}
           <Button
             variant="ghost"

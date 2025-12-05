@@ -48,7 +48,7 @@ const Index = () => {
           {/* Main Hero Content */}
           <div className="text-center mb-6 md:mb-12">
             <h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-5 md:mb-6 animate-fade-in-down leading-tight px-4"
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-5 md:mb-6 animate-fade-in-down leading-tight"
               style={{ transform: `translateY(${scrollY * -0.15}px)` }}
             >
               Thivin Enterprises
@@ -76,21 +76,21 @@ const Index = () => {
               className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4"
               style={{ transform: `translateY(${scrollY * -0.05}px)` }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Gift className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">Best Deals</span>
+              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Gift className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+                <span className="text-xs md:text-sm font-medium text-gray-700">Best Deals</span>
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">Quality Assured</span>
+              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+                <span className="text-xs md:text-sm font-medium text-gray-700">Quality Assured</span>
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">Fast Delivery</span>
+              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+                <span className="text-xs md:text-sm font-medium text-gray-700">Fast Delivery</span>
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Heart className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">Trusted by 1000s</span>
+              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Heart className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+                <span className="text-xs md:text-sm font-medium text-gray-700">Trusted by 1000s</span>
               </div>
             </div>
           </div>

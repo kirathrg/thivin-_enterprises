@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import { ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
@@ -13,7 +13,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { addItem } = useCart();
+  const { addItem } = useCartStore();
 
   return (
     <Card className="flex flex-col overflow-hidden transition-all duration-500 border-gray-200 bg-white group h-full md:hover:shadow-2xl md:hover:-translate-y-2 md:hover:scale-[1.02] md:hover:rotate-1">

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { useCart } from "@/context/CartContext";
+import { useCartStore, selectCartTotal, selectCartItemCount } from "@/store/useCartStore";
 import { MinusCircle, PlusCircle, Trash2, ShoppingBag } from "lucide-react";
 
 interface CartDrawerProps {
@@ -22,8 +22,9 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { cartItems, removeItem, updateQuantity, cartTotal, cartItemCount } =
-    useCart();
+  const { cartItems, removeItem, updateQuantity } = useCartStore();
+  const cartTotal = useCartStore(selectCartTotal);
+  const cartItemCount = useCartStore(selectCartItemCount);
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>

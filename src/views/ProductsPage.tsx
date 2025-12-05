@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
-import { useSearch } from "@/context/SearchContext";
+import { useSearchStore } from "@/store/useSearchStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
 const ProductsPage = () => {
-  const { searchQuery } = useSearch(); // Get search query from context
+  const { searchQuery } = useSearchStore(); // Get search query from store
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -16,8 +16,9 @@ const ProductsPage = () => {
   );
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
-      <div className="flex flex-col items-center justify-center mb-12 mt-8">
+    <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
+      <div className="container mx-auto px-4 py-4 md:px-8 md:py-8">
+        <div className="flex flex-col items-center justify-center mb-12 mt-8">
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">
           Our Products
         </h1>
@@ -53,6 +54,7 @@ const ProductsPage = () => {
           </TabsContent>
         </Tabs>
       )}
+      </div>
     </div>
   );
 };

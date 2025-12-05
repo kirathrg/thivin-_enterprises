@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { useCart } from "@/context/CartContext";
+import { useCartStore, selectCartTotal } from "@/store/useCartStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -15,7 +15,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { CheckCircle, ArrowLeft, Truck, CreditCard } from "lucide-react";
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, clearCart } = useCartStore();
+  const cartTotal = useCartStore(selectCartTotal);
   const router = useRouter();
   const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Confirmation
   const [shippingDetails, setShippingDetails] = useState({
@@ -66,8 +67,9 @@ const Checkout = () => {
 
   if (cartItems.length === 0 && step < 3) {
     return (
-      <div className="container mx-auto p-4 text-center min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-white relative z-10">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h1>
+      <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
+        <div className="container mx-auto px-4 py-4 text-center flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h1>
         <p className="text-lg text-gray-600 mb-6">
           Please add items to your cart before proceeding to checkout.
         </p>
@@ -76,13 +78,15 @@ const Checkout = () => {
             <ArrowLeft className="h-4 w-4" /> Continue Shopping
           </Link>
         </Button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)] bg-white relative z-10">
-      <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">Checkout</h1>
+    <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
+      <div className="container mx-auto px-4 py-4 md:px-8 md:py-8">
+        <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">Checkout</h1>
       
       {step < 3 && (
         <div className="max-w-2xl mx-auto mb-8">
@@ -247,6 +251,7 @@ const Checkout = () => {
             </CardContent>
           </Card>
         )}
+      </div>
       </div>
     </div>
   );

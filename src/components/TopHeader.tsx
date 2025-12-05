@@ -17,9 +17,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useCart } from "@/context/CartContext";
-import { useAuth } from "@/context/AuthContext";
-import { useSearch } from "@/context/SearchContext";
+import { useCartStore, selectCartItemCount } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useSearchStore } from "@/store/useSearchStore";
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -37,9 +37,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const TopHeader = () => {
-  const { cartItemCount } = useCart();
-  const { isAuthenticated, user, logout } = useAuth();
-  const { searchQuery, setSearchQuery } = useSearch();
+  const cartItemCount = useCartStore(selectCartItemCount);
+  const { isAuthenticated, user, logout } = useAuthStore();
+  const { searchQuery, setSearchQuery } = useSearchStore();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);

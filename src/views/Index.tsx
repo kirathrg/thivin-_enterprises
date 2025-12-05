@@ -1,6 +1,5 @@
 "use client";
 
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
@@ -25,7 +24,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Full Screen */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex items-center justify-center px-4 md:px-6 pt-14 md:pt-0">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-[85vh] md:min-h-screen flex items-start justify-center px-4 md:px-6 pt-16 md:pt-20">
         {/* Decorative Background Elements with Parallax */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div 
@@ -99,7 +98,7 @@ const Index = () => {
         </div>
 
         {/* Scroll Down Indicator with Arrow Animation */}
-        <div className="absolute bottom-6 md:bottom-16 left-0 right-0 flex justify-center z-20">
+        <div className="absolute bottom-8 md:bottom-20 left-0 right-0 flex justify-center z-20">
           <div 
             className="flex flex-col items-center gap-2 md:gap-3 cursor-pointer animate-bounce"
             onClick={() => document.getElementById('featured-products')?.scrollIntoView({ behavior: 'smooth' })}
@@ -197,8 +196,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      <MadeWithDyad />
     </div>
   );
 };

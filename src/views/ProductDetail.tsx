@@ -8,14 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import { ArrowLeft, ShoppingCart, Package, CheckCircle } from "lucide-react";
 
 const ProductDetail = () => {
   const params = useParams();
   const id = params?.id as string;
   const product = products.find((p) => p.id === id);
-  const { addItem } = useCart();
+  const { addItem } = useCartStore();
 
   if (!product) {
     return (
@@ -34,7 +34,8 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]\">\n      <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100">
+    <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
+      <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100">
         <Link href="/products" className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>

@@ -28,10 +28,10 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         {products.map((product, index) => (
           <CarouselItem 
             key={product.id} 
-            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3"
+            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3 md:animate-fade-in-up"
             style={{
-              animation: `fadeInSlideUp 0.6s ease-out forwards ${index * 0.1}s`,
-              opacity: 0,
+              animationDelay: `${index * 0.1}s`,
+              animationFillMode: 'both',
             }}
           >
             <div className="p-1">

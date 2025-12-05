@@ -4,10 +4,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CartProvider } from "@/context/CartContext";
-import { AuthProvider } from "@/context/AuthContext";
-import { SearchProvider } from "@/context/SearchContext";
 import Sidebar from "@/components/Sidebar";
 import TopHeader from "@/components/TopHeader";
 import Footer from "@/components/Footer";
@@ -32,54 +28,48 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <TooltipProvider>
-            <AuthProvider>
-              <CartProvider>
-                <SearchProvider>
-                  <div className="flex min-h-screen bg-gray-50">
-                    <Sidebar />
-                    <div className="flex-1 md:ml-64 flex flex-col">
-                      <TopHeader />
-                      <main className="pt-14 flex-1">
-                        {children}
-                      </main>
-                      <Footer />
-                    </div>
-                  </div>
-                  
-                  {/* Floating Contact Buttons */}
-                  <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-2 md:gap-3" style={{ zIndex: 9999 }}>
-                    <Button
-                      size="icon"
-                      asChild
-                      className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
-                    >
-                      <a
-                        href="https://wa.me/911234567890"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Chat on WhatsApp"
-                      >
-                        <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
-                      </a>
-                    </Button>
-                    <Button
-                      size="icon"
-                      asChild
-                      className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
-                    >
-                      <a
-                        href="tel:+911234567890"
-                        aria-label="Call us"
-                      >
-                        <Phone className="h-5 w-5 md:h-6 md:w-6" />
-                      </a>
-                    </Button>
-                  </div>
-                </SearchProvider>
-              </CartProvider>
-            </AuthProvider>
+            <div className="flex min-h-screen bg-gray-50">
+              <Sidebar />
+              <div className="flex-1 md:ml-64 flex flex-col">
+                <TopHeader />
+                <main className="pt-14 flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </div>
+            
+            {/* Floating Contact Buttons */}
+            <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-2 md:gap-3" style={{ zIndex: 9999 }}>
+              <Button
+                size="icon"
+                asChild
+                className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+              >
+                <a
+                  href="https://wa.me/911234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
+                </a>
+              </Button>
+              <Button
+                size="icon"
+                asChild
+                className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+              >
+                <a
+                  href="tel:+911234567890"
+                  aria-label="Call us"
+                >
+                  <Phone className="h-5 w-5 md:h-6 md:w-6" />
+                </a>
+              </Button>
+            </div>
             <Toaster />
-            <Sonner />
+            <Sonner position="top-right" toastOptions={{ style: { zIndex: 99999, marginTop: '4rem' } }} />
           </TooltipProvider>
         </Providers>
       </body>

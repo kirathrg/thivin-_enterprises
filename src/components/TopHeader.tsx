@@ -36,6 +36,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 const TopHeader = () => {
   const cartItemCount = useCartStore(selectCartItemCount);
@@ -46,15 +47,19 @@ const TopHeader = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [showInstallButton, setShowInstallButton] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
+    // Check if app is already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+    }
+
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowInstallButton(true);
     };
 
     window.addEventListener('beforeinstallprompt', handler);
@@ -63,14 +68,31 @@ const TopHeader = () => {
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      setDeferredPrompt(null);
-      setShowInstallButton(false);
+    if (deferredPrompt) {
+      // Browser supports native install prompt
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+        setIsInstalled(true);
+        toast.success("App installed successfully!");
+      }
+    } else {
+      // Direct install for browsers that don't fire beforeinstallprompt
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
+      const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
+      
+      if (isIOS || isSafari) {
+        toast.info("To install on iOS/Safari:\n1. Tap Share (□↑)\n2. Select 'Add to Home Screen'", {
+          duration: 6000,
+        });
+      } else {
+        toast.info("To install this app:\n1. Click browser menu (⋮)\n2. Select 'Install Thivin Enterprises'", {
+          duration: 6000,
+        });
+      }
     }
   };
 
@@ -166,8 +188,8 @@ const TopHeader = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-1 md:gap-2 ml-auto">
-          {/* PWA Install Button */}
-          {showInstallButton && (
+          {/* PWA Install Button - Always visible unless already installed */}
+          {!isInstalled && (
             <Button
               variant="ghost"
               size="icon"

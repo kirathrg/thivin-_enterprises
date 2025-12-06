@@ -24,43 +24,52 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
         // Check if already in standalone mode (installed)
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone;
         if (isStandalone) {
+            console.log("App already installed");
             return;
         }
 
         // Standard PWA (Android/Desktop)
         const handler = (e: any) => {
             e.preventDefault();
+            console.log("beforeinstallprompt event captured");
             setPromptInstall(e);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
 
-        // For testing in mobile view: Set a mock install handler
-        if (!promptInstall) {
-            setPromptInstall({
-                prompt: () => {
-                    console.log("Mock install triggered");
-                },
-                userChoice: Promise.resolve({ outcome: 'accepted' })
-            });
-        }
-
         return () => {
             window.removeEventListener("beforeinstallprompt", handler);
         };
-    }, [promptInstall]);
+    }, []);
 
     const onClick = async () => {
         if (!promptInstall) {
+            toast.error("Installation is not available. Please make sure you're using a supported browser.");
+            onClose();
             return;
         }
-        promptInstall.prompt();
-        const { outcome } = await promptInstall.userChoice;
 
-        if (outcome === 'accepted') {
+        try {
+            // Show the native install prompt
+            await promptInstall.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const { outcome } = await promptInstall.userChoice;
+            
+            console.log(`User response: ${outcome}`);
+
+            if (outcome === 'accepted') {
+                toast.success("Thank you for installing our app!");
+            } else {
+                toast.info("Installation cancelled");
+            }
+            
+            // Clear the prompt
+            setPromptInstall(null);
             onClose();
-            toast.success("Thank you for installing our app!");
-        } else {
+        } catch (error) {
+            console.error("Installation error:", error);
+            toast.error("Installation failed. Please try again.");
             onClose();
         }
     };
@@ -72,6 +81,26 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
     // Only show on mobile when triggered
     if (!isOpen || !isMobile) {
         return null;
+    }
+
+    // If no install prompt available, show message
+    if (!promptInstall) {
+        return (
+            <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300">
+                <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-300 p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Installation Not Available</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                        This app is either already installed or your browser doesn't support PWA installation.
+                    </p>
+                    <button
+                        onClick={handleClose}
+                        className="w-full px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm rounded-lg transition-colors"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (

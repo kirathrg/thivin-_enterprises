@@ -9,7 +9,6 @@ import Footer from "@/components/Footer";
 import { Providers } from "./providers";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone } from "lucide-react";
-import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +40,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <TooltipProvider>
-            <PWAInstallPrompt />
             <div className="flex min-h-screen bg-white">
               <div className="flex-1 flex flex-col">
                 <TopHeader />

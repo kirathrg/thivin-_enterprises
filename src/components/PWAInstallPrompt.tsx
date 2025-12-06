@@ -1,29 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Download, Share, X, PlusSquare } from "lucide-react";
+import { X } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
 
-export default function PWAInstallPrompt() {
-    const [supportsPWA, setSupportsPWA] = useState(false);
+interface PWAInstallPromptProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptProps) {
     const [promptInstall, setPromptInstall] = useState<any>(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const [isIOS, setIsIOS] = useState(false);
-    const pathname = usePathname();
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        // Only show on dashboard (home page)
-        if (pathname !== "/") {
-            return;
-        }
-
-        // Check if user has dismissed the prompt before
-        const dismissed = sessionStorage.getItem("pwa-prompt-dismissed");
-        if (dismissed === "true") {
-            return;
-        }
+        // Check if mobile device
+        const checkMobile = () => {
+            return window.innerWidth <= 768;
+        };
+        setIsMobile(checkMobile());
 
         // Check if already in standalone mode (installed)
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone;
@@ -31,27 +27,28 @@ export default function PWAInstallPrompt() {
             return;
         }
 
-        // Detect iOS
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+        // Standard PWA (Android/Desktop)
+        const handler = (e: any) => {
+            e.preventDefault();
+            setPromptInstall(e);
+        };
 
-        if (isIosDevice) {
-            setIsIOS(true);
-            // Show immediately or after delay on iOS since we can't detect "installability" via event
-            setTimeout(() => setIsVisible(true), 3000);
-        } else {
-            // Standard PWA (Android/Desktop)
-            const handler = (e: any) => {
-                e.preventDefault();
-                setSupportsPWA(true);
-                setPromptInstall(e);
-                setTimeout(() => setIsVisible(true), 2000);
-            };
+        window.addEventListener("beforeinstallprompt", handler);
 
-            window.addEventListener("beforeinstallprompt", handler);
-            return () => window.removeEventListener("beforeinstallprompt", handler);
+        // For testing in mobile view: Set a mock install handler
+        if (!promptInstall) {
+            setPromptInstall({
+                prompt: () => {
+                    console.log("Mock install triggered");
+                },
+                userChoice: Promise.resolve({ outcome: 'accepted' })
+            });
         }
-    }, [pathname]);
+
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handler);
+        };
+    }, [promptInstall]);
 
     const onClick = async () => {
         if (!promptInstall) {
@@ -61,86 +58,105 @@ export default function PWAInstallPrompt() {
         const { outcome } = await promptInstall.userChoice;
 
         if (outcome === 'accepted') {
-            setIsVisible(false);
-            sessionStorage.setItem("pwa-prompt-dismissed", "true");
+            onClose();
             toast.success("Thank you for installing our app!");
+        } else {
+            onClose();
         }
     };
 
-    const onClose = () => {
-        setIsVisible(false);
-        sessionStorage.setItem("pwa-prompt-dismissed", "true");
+    const handleClose = () => {
+        onClose();
     };
 
-    if (!isVisible) {
+    // Only show on mobile when triggered
+    if (!isOpen || !isMobile) {
         return null;
     }
 
-    // iOS UI
-    if (isIOS) {
-        return (
-            <div className="fixed bottom-20 left-4 right-4 md:bottom-6 md:left-auto md:right-24 z-[9999] animate-in slide-in-from-bottom-5 fade-in duration-500">
-                <div className="bg-white dark:bg-slate-900 border border-border rounded-xl shadow-2xl p-4 max-w-sm ml-auto relative">
+    return (
+        <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-300">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-4 py-3 flex items-center justify-between">
+                    <h3 className="text-white font-semibold text-base">Install app</h3>
                     <button
-                        onClick={onClose}
-                        className="absolute top-2 right-2 text-muted-foreground hover:text-foreground p-1 rounded-full hover:bg-muted transition-colors"
+                        onClick={handleClose}
+                        className="text-white/80 hover:text-white transition-colors"
                     >
-                        <X className="h-4 w-4" />
+                        <X className="h-5 w-5" />
                     </button>
-
-                    <div className="flex items-start gap-4 pr-6">
-                        <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary shrink-0">
-                            <PlusSquare className="h-5 w-5" />
-                        </div>
-                        <div className="space-y-2">
-                            <h3 className="font-semibold text-sm">Install App</h3>
-                            <p className="text-xs text-muted-foreground">
-                                To install this app on your iOS device:
-                            </p>
-                            <div className="flex flex-col gap-2 text-xs text-foreground mt-2">
-                                <div className="flex items-center gap-2">
-                                    1. Tap the <Share className="h-4 w-4" /> Share button
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    2. Select <span className="font-medium">Add to Home Screen</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        );
-    }
 
-    // Android/Desktop UI
-    if (supportsPWA) {
-        return (
-            <div className="fixed bottom-20 left-4 right-4 md:bottom-6 md:left-auto md:right-24 z-[9999] animate-in slide-in-from-bottom-5 fade-in duration-500">
-                <div className="bg-white dark:bg-slate-900 border border-border rounded-xl shadow-2xl p-4 flex items-center justify-between gap-4 max-w-sm ml-auto">
-                    <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
-                            <Download className="h-5 w-5" />
+                {/* Content */}
+                <div className="p-6">
+                    <div className="flex items-center gap-4 mb-6">
+                        {/* App Icon */}
+                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-blue-600">
+                            <Image
+                                src="/logo.png"
+                                alt="Thivin Enterprises"
+                                fill
+                                className="object-cover"
+                            />
                         </div>
-                        <div>
-                            <h3 className="font-semibold text-sm">Install App</h3>
-                            <p className="text-xs text-muted-foreground">Get a better experience</p>
+                        
+                        {/* App Info */}
+                        <div className="flex-1">
+                            <h4 className="font-semibold text-gray-900 text-lg mb-1">
+                                Thivin Enterprises
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                                www.thivinenterprises.com
+                            </p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Button size="sm" onClick={onClick} className="h-8 text-xs">
-                            Install
-                        </Button>
+
+                    {/* Features List */}
+                    <div className="space-y-3 mb-6">
+                        <div className="flex items-start gap-3">
+                            <div className="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg className="h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <p className="text-sm text-gray-700">Fast and reliable performance</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                            <div className="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg className="h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <p className="text-sm text-gray-700">Works offline</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                            <div className="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg className="h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <p className="text-sm text-gray-700">Get instant notifications</p>
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3">
                         <button
-                            onClick={onClose}
-                            className="text-muted-foreground hover:text-foreground p-1 rounded-full hover:bg-muted transition-colors"
+                            onClick={handleClose}
+                            className="flex-1 px-4 py-3 text-gray-700 font-medium text-sm rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
                         >
-                            <X className="h-4 w-4" />
+                            Cancel
+                        </button>
+                        <button
+                            onClick={onClick}
+                            className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors shadow-md"
+                        >
+                            Install
                         </button>
                     </div>
                 </div>
             </div>
-        );
-    }
-
-    return null;
+        </div>
+    );
 }

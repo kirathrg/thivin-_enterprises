@@ -15,6 +15,7 @@ import {
   Info,
   ShoppingBag,
   Phone,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useSearchStore } from "@/store/useSearchStore";
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
+import PWAInstallPrompt from "./PWAInstallPrompt";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -45,6 +47,7 @@ const TopHeader = () => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPWAPromptOpen, setIsPWAPromptOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -133,6 +136,16 @@ const TopHeader = () => {
           </Button>
         </div>
 
+        {/* PWA Install Button - Mobile Only */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden hover:bg-gray-100 text-gray-700 hover:text-gray-900 ml-2"
+          onClick={() => setIsPWAPromptOpen(true)}
+        >
+          <Smartphone className="h-5 w-5" />
+        </Button>
+
         {/* Right Actions */}
         <div className="flex items-center gap-2 ml-auto">
           {/* Desktop Navigation */}
@@ -220,6 +233,7 @@ const TopHeader = () => {
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
       <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} onToggle={() => setIsCommandPaletteOpen(!isCommandPaletteOpen)} />
+      <PWAInstallPrompt isOpen={isPWAPromptOpen} onClose={() => setIsPWAPromptOpen(false)} />
     </>
   );
 };

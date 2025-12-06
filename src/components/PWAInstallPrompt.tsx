@@ -5,6 +5,9 @@ import { X } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 
+// Store the install prompt globally so it persists across component re-renders
+let deferredPrompt: any = null;
+
 interface PWAInstallPromptProps {
     isOpen: boolean;
     onClose: () => void;
@@ -13,6 +16,7 @@ interface PWAInstallPromptProps {
 export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptProps) {
     const [promptInstall, setPromptInstall] = useState<any>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isInstallable, setIsInstallable] = useState(false);
 
     useEffect(() => {
         // Check if mobile device
@@ -24,18 +28,35 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
         // Check if already in standalone mode (installed)
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone;
         if (isStandalone) {
-            console.log("App already installed");
+            console.log("App already installed (standalone mode)");
             return;
         }
 
         // Standard PWA (Android/Desktop)
         const handler = (e: any) => {
             e.preventDefault();
-            console.log("beforeinstallprompt event captured");
+            console.log("beforeinstallprompt event captured and stored");
+            deferredPrompt = e;
             setPromptInstall(e);
+            setIsInstallable(true);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
+
+        // Check if we already have a deferred prompt from a previous load
+        if (deferredPrompt) {
+            console.log("Using previously stored install prompt");
+            setPromptInstall(deferredPrompt);
+            setIsInstallable(true);
+        }
+
+        // Listen for successful installation
+        window.addEventListener("appinstalled", () => {
+            console.log("PWA was installed successfully");
+            deferredPrompt = null;
+            setPromptInstall(null);
+            setIsInstallable(false);
+        });
 
         return () => {
             window.removeEventListener("beforeinstallprompt", handler);
@@ -43,29 +64,36 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
     }, []);
 
     const onClick = async () => {
-        if (!promptInstall) {
-            toast.error("Installation is not available. Please make sure you're using a supported browser.");
+        const currentPrompt = promptInstall || deferredPrompt;
+        
+        if (!currentPrompt) {
+            console.log("No install prompt available");
+            toast.error("Installation is not available. Please refresh the page and try again.");
             onClose();
             return;
         }
 
         try {
+            console.log("Showing install prompt...");
             // Show the native install prompt
-            await promptInstall.prompt();
+            await currentPrompt.prompt();
             
             // Wait for the user to respond to the prompt
-            const { outcome } = await promptInstall.userChoice;
+            const { outcome } = await currentPrompt.userChoice;
             
             console.log(`User response: ${outcome}`);
 
             if (outcome === 'accepted') {
+                console.log("User accepted installation");
                 toast.success("Thank you for installing our app!");
+                deferredPrompt = null;
+                setPromptInstall(null);
+                setIsInstallable(false);
             } else {
+                console.log("User dismissed installation");
                 toast.info("Installation cancelled");
             }
             
-            // Clear the prompt
-            setPromptInstall(null);
             onClose();
         } catch (error) {
             console.error("Installation error:", error);
@@ -84,17 +112,22 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
     }
 
     // If no install prompt available, show message
-    if (!promptInstall) {
+    if (!promptInstall && !deferredPrompt) {
         return (
             <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300">
                 <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-300 p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Installation Not Available</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                        This app is either already installed or your browser doesn't support PWA installation.
+                        The app may already be installed, or your browser needs to be refreshed. Please:
                     </p>
+                    <ul className="text-sm text-gray-600 mb-4 list-disc list-inside space-y-1">
+                        <li>Refresh this page</li>
+                        <li>Make sure you're using Chrome or Edge</li>
+                        <li>Check if the app is already installed</li>
+                    </ul>
                     <button
                         onClick={handleClose}
-                        className="w-full px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm rounded-lg transition-colors"
+                        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors"
                     >
                         Close
                     </button>

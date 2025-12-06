@@ -22,11 +22,14 @@ export const useAuthStore = create<AuthState>()(
       user: null,
 
       login: async (email: string, password: string) => {
-        // Mock login logic
-        if (email === "test@example.com" && password === "password") {
+        // Accept any valid email and password (for testing purposes)
+        if (email && password.length >= 6) {
+          // Extract name from email (part before @)
+          const name = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+          
           set({
             isAuthenticated: true,
-            user: { name: "Test User", email },
+            user: { name, email },
           });
           return true;
         }

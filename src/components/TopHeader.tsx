@@ -52,8 +52,9 @@ const TopHeader = () => {
   const pathname = usePathname();
 
   const mainNavigation = [
-    { href: "/", icon: Home, label: "Dashboard" },
+    { href: "/", icon: Home, label: "Home" },
     { href: "/products", icon: Package, label: "Products" },
+    { href: "#", icon: ShoppingCart, label: "Cart", onClick: () => setIsCartDrawerOpen(true) },
     { href: "/about-us", icon: Info, label: "About Us" },
     { href: "/contact-us", icon: Phone, label: "Contact Us" },
   ];
@@ -84,6 +85,27 @@ const TopHeader = () => {
                 {mainNavigation.map((item) => {
                   const Icon = item.icon;
                   const isActive = pathname === item.href;
+
+                  if (item.onClick) {
+                    return (
+                      <button
+                        key={item.label}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          item.onClick();
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 w-full text-left"
+                      >
+                        <Icon className="h-4 w-4" />
+                        <span>{item.label}</span>
+                        {item.label === "Cart" && cartItemCount > 0 && (
+                          <span className="ml-auto bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                            {cartItemCount}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  }
 
                   return (
                     <Link

@@ -22,9 +22,9 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section - Full Screen */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-[85vh] md:min-h-screen flex items-start justify-center px-4 md:px-6 pt-16 md:pt-20">
+      <section className="relative overflow-hidden bg-white min-h-[85vh] md:min-h-screen flex items-start justify-center px-4 md:px-6 pt-16 md:pt-20">
         {/* Decorative Background Elements with Parallax */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div 
@@ -48,49 +48,49 @@ const Index = () => {
           {/* Main Hero Content */}
           <div className="text-center mb-6 md:mb-12">
             <h1 
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-5 md:mb-6 animate-fade-in-down leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-4 md:mb-6 animate-fade-in-down leading-tight px-4"
               style={{ transform: `translateY(${scrollY * -0.15}px)` }}
             >
               Thivin Enterprises
             </h1>
             
             <p 
-              className="text-sm md:text-lg lg:text-xl text-gray-700 mb-8 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-2 leading-relaxed"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-4 leading-relaxed"
               style={{ transform: `translateY(${scrollY * -0.1}px)` }}
             >
               Your one-stop shop for quality home appliances and combo packs.
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center animate-scale-in mb-10 md:mb-16 px-4 w-full max-w-md mx-auto sm:max-w-none">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center animate-scale-in mb-8 md:mb-16 px-4 w-full max-w-sm mx-auto sm:max-w-none">
+              <Button asChild size="default" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto h-11 md:h-12">
                 <Link href="/products">Shop Now</Link>
               </Button>
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto">
+              <Button asChild size="default" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto h-11 md:h-12">
                 <Link href="/about-us">Learn More</Link>
               </Button>
             </div>
 
             {/* Feature Pills */}
             <div 
-              className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4"
+              className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4 max-w-xl mx-auto"
               style={{ transform: `translateY(${scrollY * -0.05}px)` }}
             >
-              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Gift className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
-                <span className="text-xs md:text-sm font-medium text-gray-700">Best Deals</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Gift className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Best Deals</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
-                <span className="text-xs md:text-sm font-medium text-gray-700">Quality Assured</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Quality Assured</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
-                <span className="text-xs md:text-sm font-medium text-gray-700">Fast Delivery</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Fast Delivery</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Heart className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
-                <span className="text-xs md:text-sm font-medium text-gray-700">Trusted by 1000s</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
+                <Heart className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Trusted by 1000s</span>
               </div>
             </div>
           </div>

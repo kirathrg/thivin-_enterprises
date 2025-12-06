@@ -97,38 +97,6 @@
 
   body {
     @apply text-foreground;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.04) 0%, transparent 50%),
-      linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e0f2fe 50%, #dbeafe 75%, #f0f9ff 100%);
-    background-attachment: fixed;
-  }
-  
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-    z-index: -1;
-    background-image: 
-      linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-      linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-    animation: gridMove 20s linear infinite;
-  }
-  
-  @keyframes gridMove {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(80px, 80px);
-    }
   }
 }
 

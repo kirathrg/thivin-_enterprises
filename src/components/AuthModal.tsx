@@ -65,10 +65,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         const validatedData = signupSchema.parse({ name, email, password });
         const success = await signup(validatedData.name, validatedData.email, validatedData.password);
         if (success) {
-          toast.success("Account created successfully!", {
-            position: "top-right",
-            duration: 3000,
-          });
           onClose();
           setName("");
           setEmail("");

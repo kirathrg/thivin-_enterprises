@@ -25,7 +25,6 @@ export const useCartStore = create<CartState>()(
           const existingItem = state.cartItems.find((item) => item.id === product.id);
           
           if (existingItem) {
-            toast.success(`${product.name} quantity updated in cart!`);
             return {
               cartItems: state.cartItems.map((item) =>
                 item.id === product.id
@@ -34,7 +33,6 @@ export const useCartStore = create<CartState>()(
               ),
             };
           } else {
-            toast.success(`${product.name} added to cart!`);
             return {
               cartItems: [...state.cartItems, { ...product, quantity }],
             };
@@ -44,10 +42,6 @@ export const useCartStore = create<CartState>()(
 
       removeItem: (productId: string) => {
         set((state) => {
-          const removedItem = state.cartItems.find(item => item.id === productId);
-          if (removedItem) {
-            toast.info(`${removedItem.name} removed from cart.`);
-          }
           return {
             cartItems: state.cartItems.filter((item) => item.id !== productId),
           };
@@ -71,7 +65,6 @@ export const useCartStore = create<CartState>()(
 
       clearCart: () => {
         set({ cartItems: [] });
-        toast.info("Cart cleared!");
       },
     }),
     {

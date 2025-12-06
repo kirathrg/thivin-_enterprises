@@ -50,9 +50,6 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
           user: null,
         });
-        toast.info("Logged out.", {
-          position: "top-right",
-        });
       },
     }),
     {

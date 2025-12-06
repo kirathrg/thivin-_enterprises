@@ -1,8 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, Award, Users } from "lucide-react";
+
+interface AnimatedCardProps {
+  children: React.ReactNode;
+  direction: "left" | "right";
+  delay?: number;
+}
+
+const AnimatedCard: React.FC<AnimatedCardProps> = ({ children, direction, delay = 0 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              setIsVisible(true);
+            }, delay);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px",
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, [delay]);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`transform transition-all duration-1000 ease-out ${
+        isVisible
+          ? "translate-x-0 opacity-100"
+          : direction === "left"
+          ? "md:-translate-x-full -translate-x-0 opacity-0"
+          : "md:translate-x-full translate-x-0 opacity-0"
+      }`}
+    >
+      {children}
+    </div>
+  );
+};
 
 const AboutUs = () => {
   return (
@@ -17,7 +71,8 @@ const AboutUs = () => {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6">
-        <Card className="hover:shadow-lg transition-shadow border-gray-200">
+        <AnimatedCard direction="left">
+          <Card className="hover:shadow-lg transition-shadow border-gray-200">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-3">
               <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -41,8 +96,10 @@ const AboutUs = () => {
             </p>
           </CardContent>
         </Card>
+        </AnimatedCard>
 
-        <Card className="hover:shadow-lg transition-shadow border-gray-200">
+        <AnimatedCard direction="right" delay={200}>
+          <Card className="hover:shadow-lg transition-shadow border-gray-200">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-3">
               <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -66,8 +123,10 @@ const AboutUs = () => {
             </p>
           </CardContent>
         </Card>
+        </AnimatedCard>
 
-        <Card className="hover:shadow-lg transition-shadow border-gray-200">
+        <AnimatedCard direction="left" delay={400}>
+          <Card className="hover:shadow-lg transition-shadow border-gray-200">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-3">
               <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -90,6 +149,7 @@ const AboutUs = () => {
             </p>
           </CardContent>
         </Card>
+        </AnimatedCard>
       </div>
     </div>
   );

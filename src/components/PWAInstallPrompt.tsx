@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Download, Share, X, PlusSquare } from "lucide-react";
 import { toast } from "sonner";
@@ -10,8 +11,20 @@ export default function PWAInstallPrompt() {
     const [promptInstall, setPromptInstall] = useState<any>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
+        // Only show on dashboard (home page)
+        if (pathname !== "/") {
+            return;
+        }
+
+        // Check if user has dismissed the prompt before
+        const dismissed = sessionStorage.getItem("pwa-prompt-dismissed");
+        if (dismissed === "true") {
+            return;
+        }
+
         // Check if already in standalone mode (installed)
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone;
         if (isStandalone) {
@@ -38,7 +51,7 @@ export default function PWAInstallPrompt() {
             window.addEventListener("beforeinstallprompt", handler);
             return () => window.removeEventListener("beforeinstallprompt", handler);
         }
-    }, []);
+    }, [pathname]);
 
     const onClick = async () => {
         if (!promptInstall) {
@@ -49,12 +62,14 @@ export default function PWAInstallPrompt() {
 
         if (outcome === 'accepted') {
             setIsVisible(false);
+            sessionStorage.setItem("pwa-prompt-dismissed", "true");
             toast.success("Thank you for installing our app!");
         }
     };
 
     const onClose = () => {
         setIsVisible(false);
+        sessionStorage.setItem("pwa-prompt-dismissed", "true");
     };
 
     if (!isVisible) {

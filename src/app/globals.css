@@ -98,7 +98,7 @@
   body {
     @apply text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background: #f9fafb;
+    background: #ffffff;
     position: relative;
     overflow-x: hidden;
   }

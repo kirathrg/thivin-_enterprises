@@ -14,6 +14,7 @@ import {
   Package,
   Info,
   ShoppingBag,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -50,8 +51,8 @@ const TopHeader = () => {
   const mainNavigation = [
     { href: "/", icon: Home, label: "Dashboard" },
     { href: "/products", icon: Package, label: "Products" },
-    { href: "/checkout", icon: ShoppingBag, label: "Checkout" },
     { href: "/about-us", icon: Info, label: "About Us" },
+    { href: "/contact-us", icon: Phone, label: "Contact Us" },
   ];
 
   return (

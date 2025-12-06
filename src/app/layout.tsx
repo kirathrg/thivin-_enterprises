@@ -42,7 +42,7 @@ export default function RootLayout({
         <Providers>
           <TooltipProvider>
             <PWAInstallPrompt />
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-white">
               <div className="flex-1 flex flex-col">
                 <TopHeader />
                 <main className="pt-16 flex-1">

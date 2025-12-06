@@ -15,7 +15,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Thivin Enterprises - Quality Home Appliances",
   description: "Your one-stop shop for quality home appliances and combo packs",
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

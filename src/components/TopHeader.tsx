@@ -176,6 +176,24 @@ const TopHeader = () => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
 
+              if (item.onClick) {
+                return (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 relative"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                    {item.label === "Cart" && cartItemCount > 0 && (
+                      <Badge className="ml-1 h-5 min-w-5 flex items-center justify-center p-0 bg-primary text-white text-xs">
+                        {cartItemCount}
+                      </Badge>
+                    )}
+                  </button>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}
@@ -193,20 +211,6 @@ const TopHeader = () => {
               );
             })}
           </nav>
-          {/* Cart Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative hover:bg-gray-100 text-gray-700 hover:text-gray-900"
-            onClick={() => setIsCartDrawerOpen(true)}
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {cartItemCount > 0 && (
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-primary text-white text-xs">
-                {cartItemCount}
-              </Badge>
-            )}
-          </Button>
 
           {/* User Menu - Only when authenticated */}
           {isAuthenticated ? (

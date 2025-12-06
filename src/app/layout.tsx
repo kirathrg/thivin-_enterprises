@@ -4,12 +4,12 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Sidebar from "@/components/Sidebar";
 import TopHeader from "@/components/TopHeader";
 import Footer from "@/components/Footer";
 import { Providers } from "./providers";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone } from "lucide-react";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,17 +41,17 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <TooltipProvider>
+            <PWAInstallPrompt />
             <div className="flex min-h-screen bg-gray-50">
-              <Sidebar />
-              <div className="flex-1 md:ml-64 flex flex-col">
+              <div className="flex-1 flex flex-col">
                 <TopHeader />
-                <main className="pt-14 flex-1">
+                <main className="pt-16 flex-1">
                   {children}
                 </main>
                 <Footer />
               </div>
             </div>
-            
+
             {/* Floating Contact Buttons */}
             <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-2 md:gap-3" style={{ zIndex: 9999 }}>
               <Button

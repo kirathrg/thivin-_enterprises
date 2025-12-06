@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Search,
@@ -13,10 +13,9 @@ import {
   Home,
   Package,
   Info,
-  Download,
+  ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore, selectCartItemCount } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -36,150 +35,97 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner";
 
 const TopHeader = () => {
   const cartItemCount = useCartStore(selectCartItemCount);
   const { isAuthenticated, user, logout } = useAuthStore();
-  const { searchQuery, setSearchQuery } = useSearchStore();
+  const { searchQuery } = useSearchStore();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    // Check if app is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true);
-    }
-
-    const handler = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-    };
-
-    window.addEventListener('beforeinstallprompt', handler);
-
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      // Browser supports native install prompt
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      
-      if (outcome === 'accepted') {
-        setDeferredPrompt(null);
-        setIsInstalled(true);
-        toast.success("App installed successfully!");
-      }
-    } else {
-      // Direct install for browsers that don't fire beforeinstallprompt
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isIOS = /iphone|ipad|ipod/.test(userAgent);
-      const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
-      
-      if (isIOS || isSafari) {
-        toast.info("To install on iOS/Safari:\n1. Tap Share (□↑)\n2. Select 'Add to Home Screen'", {
-          duration: 6000,
-        });
-      } else {
-        toast.info("To install this app:\n1. Click browser menu (⋮)\n2. Select 'Install Thivin Enterprises'", {
-          duration: 6000,
-        });
-      }
-    }
-  };
 
   const mainNavigation = [
     { href: "/", icon: Home, label: "Dashboard" },
     { href: "/products", icon: Package, label: "Products" },
-    { href: "/checkout", icon: ShoppingCart, label: "Checkout" },
+    { href: "/checkout", icon: ShoppingBag, label: "Checkout" },
     { href: "/about-us", icon: Info, label: "About Us" },
   ];
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push("/products");
-    }
-  };
-
   return (
     <>
-      <header className="fixed top-0 left-0 md:left-64 right-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center px-3 md:px-6 justify-between">
-        {/* Mobile Menu Button */}
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden mr-1 hover:bg-gray-100">
-              <Menu className="h-6 w-6 text-gray-700" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-64 p-0">
-            <SheetHeader className="h-14 flex items-center justify-center px-4 border-b border-gray-200">
-              <SheetTitle className="flex items-center gap-2 text-gray-900 font-semibold">
-                <img 
-                  src="/logo.png" 
-                  alt="Logo" 
-                  className="h-8 w-8 object-contain rounded-full flex-shrink-0"
-                />
-                <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
-              </SheetTitle>
-            </SheetHeader>
-            <nav className="flex flex-col p-3">
-              {mainNavigation.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                      isActive 
-                        ? "bg-primary text-white" 
-                        : "text-gray-700 hover:bg-gray-100"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                );
-              })}
-              <div className="border-t border-gray-200 my-3"></div>
-              <Link
-                href="/profile"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  pathname === "/profile" 
-                    ? "bg-primary text-white" 
-                    : "text-gray-700 hover:bg-gray-100"
-                )}
-              >
-                <User className="h-4 w-4" />
-                Profile
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
+      <header className="fixed top-0 left-0 right-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center px-4 md:px-6">
+        {/* Mobile Menu Button - First on mobile */}
+        <div className="md:hidden mr-2">
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+                <Menu className="h-6 w-6 text-gray-700" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64 p-0">
+              <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-gray-200">
+                <SheetTitle className="flex items-center gap-2 text-gray-900 font-semibold">
+                  <img
+                    src="/logo.png"
+                    alt="Logo"
+                    className="h-8 w-8 object-contain rounded-full flex-shrink-0"
+                  />
+                  <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col p-3">
+                {mainNavigation.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-primary text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                      )}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Left: Logo and Brand */}
+        <div className="flex items-center gap-3 mr-4">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <img
+              src="/logo.png"
+              alt="Thivin Enterprises Logo"
+              className="h-10 w-10 object-contain rounded-full flex-shrink-0"
+            />
+            <span className="hidden sm:block text-lg font-semibold text-gray-900 whitespace-nowrap">
+              Thivin Enterprises
+            </span>
+          </Link>
+        </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-md mr-1 md:mr-0">
+        <div className="flex-1 max-w-md">
           <Button
             variant="outline"
-            className="w-full justify-start text-muted-foreground border-gray-200 hover:border-gray-300 hover:bg-gray-50 h-9 px-2 md:px-3"
+            className="w-full justify-start text-muted-foreground border-gray-200 hover:border-gray-300 hover:bg-gray-50 h-9 px-3"
             onClick={() => setIsCommandPaletteOpen(true)}
           >
-            <Search className="h-4 w-4 mr-1 md:mr-2 text-gray-500 flex-shrink-0" />
-            <span className="text-xs md:text-sm truncate">Search...</span>
+            <Search className="h-4 w-4 mr-2 text-gray-500 flex-shrink-0" />
+            <span className="text-sm truncate">Search...</span>
             <kbd className="ml-auto pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600">
               <span className="text-xs">⌘</span>K
             </kbd>
@@ -187,20 +133,30 @@ const TopHeader = () => {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-1 md:gap-2 ml-auto">
-          {/* PWA Install Button - Always visible unless already installed */}
-          {!isInstalled && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-gray-100 text-gray-700 hover:text-gray-900"
-              onClick={handleInstallClick}
-              title="Install App"
-            >
-              <Download className="h-5 w-5" />
-            </Button>
-          )}
+        <div className="flex items-center gap-2 ml-auto">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-1">
+            {mainNavigation.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
 
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
           {/* Cart Button */}
           <Button
             variant="ghost"
@@ -216,7 +172,7 @@ const TopHeader = () => {
             )}
           </Button>
 
-          {/* User Menu */}
+          {/* User Menu - Only when authenticated */}
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -139,8 +139,8 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
         <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-300">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-4 py-3 flex items-center justify-between">
-                    <h3 className="text-white font-semibold text-base">Install app</h3>
+                <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 flex items-center justify-between">
+                    <h3 className="text-white font-semibold text-base">Install Thivin Enterprises</h3>
                     <button
                         onClick={handleClose}
                         className="text-white/80 hover:text-white transition-colors"
@@ -153,7 +153,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                 <div className="p-6">
                     <div className="flex items-center gap-4 mb-6">
                         {/* App Icon */}
-                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-blue-600">
+                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-purple-600 to-pink-600">
                             <Image
                                 src="/logo.png"
                                 alt="Thivin Enterprises"
@@ -212,7 +212,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                         </button>
                         <button
                             onClick={onClick}
-                            className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors shadow-md"
+                            className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium text-sm rounded-lg transition-all shadow-lg"
                         >
                             Install
                         </button>

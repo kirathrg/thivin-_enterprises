@@ -15,48 +15,51 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
       {/* Hero Section - Full Screen with Banner Background */}
-      <section className="relative overflow-hidden bg-gray-900 w-full h-screen flex items-center justify-center px-4 md:px-6">
+      <section className="relative overflow-hidden bg-gray-900 w-full min-h-[calc(100vh-4rem)] md:h-screen flex items-center justify-center px-4 md:px-6 py-8 md:py-0">
         {/* Hero Banner Carousel as Background */}
         <HeroBannerCarousel />
+        
+        {/* Dark Overlay for better text visibility */}
+        <div className="absolute inset-0 bg-black/40 md:bg-black/30 z-[5]" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
           {/* Main Hero Content */}
-          <div className="text-center mb-6 md:mb-12">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold drop-shadow-2xl mb-4 md:mb-6 leading-tight px-4 bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent animate-gradient-x">
+          <div className="text-center mb-4 md:mb-12">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-heading font-bold drop-shadow-2xl mb-3 md:mb-6 leading-tight px-2 bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent animate-gradient-x">
               Thivin Enterprises
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 drop-shadow-lg mb-6 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-4 leading-relaxed">
+            <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-white drop-shadow-lg mb-4 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-2 leading-relaxed font-medium">
               Your one-stop shop for quality home appliances and combo packs.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center animate-scale-in mb-8 md:mb-16 px-4 w-full max-w-sm mx-auto sm:max-w-none">
-              <Button asChild size="default" className="bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-11 md:h-12 rounded-full">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-4 justify-center items-center animate-scale-in mb-4 md:mb-16 px-2 w-full max-w-xs mx-auto sm:max-w-none">
+              <Button asChild size="default" className="bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600 px-6 md:px-8 text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-10 md:h-12 rounded-full">
                 <Link href="/products">Shop Now</Link>
               </Button>
-              <Button asChild size="default" className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-11 md:h-12 rounded-full">
+              <Button asChild size="default" className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 px-6 md:px-8 text-xs sm:text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-10 md:h-12 rounded-full">
                 <Link href="/about-us">Learn More</Link>
               </Button>
             </div>
 
             {/* Feature Pills */}
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4 max-w-xl mx-auto">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-yellow-200">
+            <div className="flex flex-wrap justify-center gap-1.5 md:gap-3 animate-fade-in px-2 max-w-xl mx-auto">
+              <div className="inline-flex items-center gap-1 px-2 py-1 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-yellow-200">
                 <Gift className="w-3 h-3 md:w-4 md:h-4 text-orange-500 flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Best Deals</span>
+                <span className="text-[10px] md:text-sm font-medium text-purple-900 whitespace-nowrap">Best Deals</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-purple-200">
+              <div className="inline-flex items-center gap-1 px-2 py-1 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-purple-200">
                 <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-purple-600 flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Quality Assured</span>
+                <span className="text-[10px] md:text-sm font-medium text-purple-900 whitespace-nowrap">Quality Assured</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-pink-200">
+              <div className="inline-flex items-center gap-1 px-2 py-1 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-pink-200">
                 <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-pink-500 flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Fast Delivery</span>
+                <span className="text-[10px] md:text-sm font-medium text-purple-900 whitespace-nowrap">Fast Delivery</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-gradient-to-r from-red-500 to-pink-500 backdrop-blur-sm rounded-full shadow-lg shadow-red-500/30 border-2 border-red-400">
+              <div className="inline-flex items-center gap-1 px-2 py-1 md:px-5 md:py-2.5 bg-gradient-to-r from-red-500 to-pink-500 backdrop-blur-sm rounded-full shadow-lg shadow-red-500/30 border-2 border-red-400">
                 <Heart className="w-3 h-3 md:w-4 md:h-4 text-white fill-white flex-shrink-0 animate-pulse" />
-                <span className="text-xs md:text-sm font-bold text-white whitespace-nowrap">Trusted by 1000s</span>
+                <span className="text-[10px] md:text-sm font-bold text-white whitespace-nowrap">Trusted by 1000s</span>
               </div>
             </div>
           </div>

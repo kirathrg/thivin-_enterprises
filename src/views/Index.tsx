@@ -13,19 +13,19 @@ import React from "react";
 const Index = () => {
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-x-hidden w-full">
       {/* Hero Section - Full Screen with Banner Background */}
-      <section className="relative overflow-hidden bg-gray-900 w-full min-h-[calc(100vh-4rem)] md:h-screen flex items-center justify-center px-4 md:px-6 py-8 md:py-0">
+      <section className="relative overflow-hidden bg-gray-900 w-full max-w-[100vw] min-h-[calc(100vh-4rem)] md:h-screen flex items-center justify-center px-4 md:px-6 py-8 md:py-0 box-border">
         {/* Hero Banner Carousel as Background */}
         <HeroBannerCarousel />
-        
+
         {/* Dark Overlay for better text visibility */}
         <div className="absolute inset-0 bg-black/40 md:bg-black/30 z-[5]" />
 
-        <div className="max-w-7xl mx-auto relative z-10 w-full">
+        <div className="max-w-7xl mx-auto relative z-10 w-full max-w-[calc(100vw-2rem)] box-border">
           {/* Main Hero Content */}
           <div className="text-center mb-4 md:mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-heading font-bold drop-shadow-2xl mb-3 md:mb-6 leading-tight px-2 bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent animate-gradient-x">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-heading font-bold drop-shadow-2xl mb-3 md:mb-6 leading-tight px-2 bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent animate-gradient-x break-words max-w-full">
               Thivin Enterprises
             </h1>
 
@@ -68,8 +68,8 @@ const Index = () => {
       </section>
 
       {/* Featured Products - Carousel with Enhanced Cards */}
-      <section id="featured-products" className="py-10 md:py-16 px-4 md:px-6 scroll-mt-16 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
-        <div className="max-w-7xl mx-auto">
+      <section id="featured-products" className="py-10 md:py-16 px-4 md:px-6 scroll-mt-16 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-hidden w-full max-w-[100vw]">
+        <div className="max-w-7xl mx-auto w-full max-w-[calc(100vw-2rem)]">
           <div className="mb-8 md:mb-12 text-center">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-3 md:mb-4 animate-fade-in-up">
               Featured Products
@@ -78,11 +78,11 @@ const Index = () => {
               Hover to explore our exclusive collection
             </p>
           </div>
-          
+
           {/* Enhanced Product Carousel */}
           <div className="relative pt-8 pb-8">
-            <ProductCarousel 
-              products={products.slice(0, 8)} 
+            <ProductCarousel
+              products={products.slice(0, 8)}
               renderCard={(product, index) => (
                 <div className="group cursor-pointer h-full px-2 py-2">
                   <div className="relative overflow-hidden rounded-3xl bg-white shadow-2xl border-4 transition-all duration-500 group-hover:border-purple-400 group-hover:shadow-purple-300/50 group-hover:-translate-y-3 h-full"
@@ -98,7 +98,7 @@ const Index = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Product Image */}
                     <div className="relative h-48 md:h-64 overflow-hidden">
                       <img
@@ -142,8 +142,8 @@ const Index = () => {
       </section>
 
       {/* Trust Badges */}
-      <section className="py-6 md:py-8 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-6 md:py-8 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 w-full max-w-[100vw]">
+        <div className="max-w-7xl mx-auto w-full max-w-[calc(100vw-2rem)]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <Card
               className="p-6 text-center border-4 border-purple-300 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-300/50 hover:border-purple-400 rounded-3xl"

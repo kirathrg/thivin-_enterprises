@@ -49,13 +49,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
       </head>
-      <body className={`${inter.variable} ${outfit.variable} font-sans`}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans overflow-x-hidden w-screen max-w-[100vw]`}>
         <Providers>
           <TooltipProvider>
-            <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
-              <div className="flex-1 flex flex-col">
+            <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-x-hidden max-w-[100vw] w-screen">
+              <div className="flex-1 flex flex-col w-full max-w-[100vw] overflow-x-hidden">
                 <TopHeader />
-                <main className="pt-16 flex-1">
+                <main className="pt-16 flex-1 overflow-x-hidden w-full max-w-[100vw]">
                   {children}
                 </main>
                 <Footer />

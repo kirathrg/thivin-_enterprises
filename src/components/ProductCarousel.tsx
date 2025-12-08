@@ -23,13 +23,13 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, renderCard 
         align: "start",
         loop: true,
       }}
-      className="w-full max-w-6xl mx-auto px-4 md:px-0 overflow-visible"
+      className="w-full max-w-6xl mx-auto px-4 md:px-0 max-w-[calc(100vw-2rem)] overflow-hidden"
     >
-      <CarouselContent className="-ml-2 md:-ml-4 overflow-visible py-2">
+      <CarouselContent className="-ml-2 md:-ml-4 py-2">
         {products.map((product, index) => (
-          <CarouselItem 
-            key={product.id} 
-            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3 md:animate-fade-in-up overflow-visible"
+          <CarouselItem
+            key={product.id}
+            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3 md:animate-fade-in-up"
             style={{
               animationDelay: `${index * 0.1}s`,
               animationFillMode: 'both',

@@ -71,64 +71,64 @@ const TopHeader = () => {
                   <Menu className="h-5 w-5 text-white" />
                 </Button>
               </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0">
-              <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-orange-50">
-                <SheetTitle className="flex items-center gap-2 text-purple-900 font-semibold">
-                  <img
-                    src="/logo.png"
-                    alt="Logo"
-                    className="h-8 w-8 object-contain rounded-full flex-shrink-0"
-                  />
-                  <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
-                </SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col p-3">
-                {mainNavigation.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = pathname === item.href;
+              <SheetContent side="left" className="w-64 p-0">
+                <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-orange-50">
+                  <SheetTitle className="flex items-center gap-2 text-purple-900 font-semibold">
+                    <img
+                      src="/logo.png"
+                      alt="Logo"
+                      className="h-8 w-8 object-contain rounded-full flex-shrink-0"
+                    />
+                    <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col p-3">
+                  {mainNavigation.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href;
 
-                  if (item.onClick) {
+                    if (item.onClick) {
+                      return (
+                        <button
+                          key={item.label}
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            item.onClick();
+                          }}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 w-full text-left"
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                          {item.label === "Cart" && cartItemCount > 0 && (
+                            <span className="ml-auto bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                              {cartItemCount}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    }
+
                     return (
-                      <button
-                        key={item.label}
-                        onClick={() => {
-                          setIsMobileMenuOpen(false);
-                          item.onClick();
-                        }}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 w-full text-left"
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                          isActive
+                            ? "bg-primary text-white"
+                            : "text-gray-700 hover:bg-gray-100"
+                        )}
                       >
                         <Icon className="h-4 w-4" />
-                        <span>{item.label}</span>
-                        {item.label === "Cart" && cartItemCount > 0 && (
-                          <span className="ml-auto bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                            {cartItemCount}
-                          </span>
-                        )}
-                      </button>
+                        {item.label}
+                      </Link>
                     );
-                  }
-
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                        isActive
-                          ? "bg-primary text-white"
-                          : "text-gray-700 hover:bg-gray-100"
-                      )}
-                    >
-                      <Icon className="h-4 w-4" />
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
+                  })}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
 
           {/* Left: Logo and Brand */}
           <div className="flex items-center gap-2 flex-shrink-0">
@@ -253,16 +253,17 @@ const TopHeader = () => {
                 Sign In
               </Button>
             )}
-            
-            {/* Mobile Sign In Icon */}
+
+            {/* Mobile Sign In Button */}
             {!isAuthenticated && (
               <Button
-                variant="ghost"
-                size="icon"
-                className="sm:hidden hover:bg-white/20 h-10 w-10"
+                variant="default"
+                size="sm"
+                className="sm:hidden bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-sm h-9 px-3 text-xs"
                 onClick={() => setIsAuthModalOpen(true)}
               >
-                <LogIn className="h-5 w-5 text-white" />
+                <LogIn className="h-4 w-4 mr-1.5" />
+                Sign In
               </Button>
             )}
           </div>

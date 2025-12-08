@@ -49,7 +49,7 @@ export default function HeroBannerCarousel() {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
+
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
@@ -78,7 +78,7 @@ export default function HeroBannerCarousel() {
         <>
             {/* Full-screen Background Carousel */}
             <div className="absolute inset-0 overflow-hidden w-full h-full" ref={emblaRef}>
-                <div className="flex h-full w-full">
+                <div className="flex h-full w-full max-w-full">
                     {banners.map((banner) => (
                         <div
                             key={banner.id}
@@ -108,8 +108,8 @@ export default function HeroBannerCarousel() {
                     <button
                         key={index}
                         className={`h-2.5 rounded-full transition-all duration-300 ${index === selectedIndex
-                                ? 'w-8 bg-white shadow-lg'
-                                : 'w-2.5 bg-white/60 hover:bg-white/80'
+                            ? 'w-8 bg-white shadow-lg'
+                            : 'w-2.5 bg-white/60 hover:bg-white/80'
                             }`}
                         onClick={() => scrollTo(index)}
                         aria-label={`Go to slide ${index + 1}`}

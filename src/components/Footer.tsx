@@ -6,8 +6,8 @@ import { Home, Package, Info, Facebook, Instagram, Twitter } from "lucide-react"
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900 text-white py-8 md:py-10">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <footer className="bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900 text-white py-8 md:py-10 overflow-hidden w-full max-w-[100vw]">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full max-w-[calc(100vw-2rem)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 mb-6 md:mb-8">
           {/* Company Info */}
           <div>
@@ -50,30 +50,30 @@ const Footer = () => {
               <p className="text-gray-300 text-sm">Phone: +91 123 456 7890</p>
               <p className="text-gray-300 text-sm">Address: 123 Main St, City, State, 12345</p>
             </div>
-            
+
             {/* Social Media Links */}
             <div className="flex gap-3">
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
+              <a
+                href="https://facebook.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-white/10 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5 text-white" />
               </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
+              <a
+                href="https://instagram.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-white/10 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5 text-white" />
               </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
+              <a
+                href="https://twitter.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-white/10 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300"
                 aria-label="Twitter"

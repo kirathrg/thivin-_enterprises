@@ -138,6 +138,13 @@ const Index = () => {
               )}
             />
           </div>
+
+          {/* View More Button */}
+          <div className="flex justify-center mt-8">
+            <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all rounded-full">
+              <Link href="/products">View More Products</Link>
+            </Button>
+          </div>
         </div>
       </section>
 

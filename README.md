@@ -57,5 +57,3 @@ You'll need **Node.js** (LTS version is best) and **pnpm** installed.
 - `pnpm build`: Compiles the app for production (great for testing performance).
 - `pnpm start`: Runs the built production version.
 - `pnpm lint`: Checks your code for any little issues or style inconsistencies.
-
-

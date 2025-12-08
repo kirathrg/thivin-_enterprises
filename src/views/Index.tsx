@@ -1,194 +1,199 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import ProductCarousel from "@/components/ProductCarousel";
-import { Truck, Headset, ShieldCheck, Phone, MessageCircle, ShoppingBag, Gift, CheckCircle, Sparkles, Heart } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import HeroBannerCarousel from "@/components/HeroBannerCarousel";
+import { Truck, Headset, ShieldCheck, Gift, CheckCircle, Sparkles, Heart, Headphones } from "lucide-react";
+import React from "react";
 
 const Index = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section - Full Screen */}
-      <section className="relative overflow-hidden bg-white min-h-[85vh] md:min-h-screen flex items-start justify-center px-4 md:px-6 pt-16 md:pt-20">
-        {/* Decorative Background Elements with Parallax */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div 
-            className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl animate-pulse"
-            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
-          ></div>
-          <div 
-            className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl animate-pulse delay-700"
-            style={{ transform: `translateY(${scrollY * 0.5}px)` }}
-          ></div>
-          <div 
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl animate-pulse delay-1000"
-            style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.2}px)` }}
-          ></div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+      {/* Hero Section - Full Screen with Banner Background */}
+      <section className="relative overflow-hidden bg-gray-900 w-full h-screen flex items-center justify-center px-4 md:px-6">
+        {/* Hero Banner Carousel as Background */}
+        <HeroBannerCarousel />
 
-        <div 
-          className="max-w-7xl mx-auto relative z-10"
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-        >
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Main Hero Content */}
           <div className="text-center mb-6 md:mb-12">
-            <h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-4 md:mb-6 animate-fade-in-down leading-tight px-4"
-              style={{ transform: `translateY(${scrollY * -0.15}px)` }}
-            >
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold drop-shadow-2xl mb-4 md:mb-6 leading-tight px-4 bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent animate-gradient-x">
               Thivin Enterprises
             </h1>
-            
-            <p 
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-4 leading-relaxed"
-              style={{ transform: `translateY(${scrollY * -0.1}px)` }}
-            >
+
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 drop-shadow-lg mb-6 md:mb-10 max-w-2xl mx-auto animate-fade-in-up px-4 leading-relaxed">
               Your one-stop shop for quality home appliances and combo packs.
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center animate-scale-in mb-8 md:mb-16 px-4 w-full max-w-sm mx-auto sm:max-w-none">
-              <Button asChild size="default" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto h-11 md:h-12">
+              <Button asChild size="default" className="bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-11 md:h-12 rounded-full">
                 <Link href="/products">Shop Now</Link>
               </Button>
-              <Button asChild size="default" className="bg-white text-primary hover:bg-gray-50 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-primary w-full sm:w-auto h-11 md:h-12">
+              <Button asChild size="default" className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 px-6 md:px-8 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-white w-full sm:w-auto h-11 md:h-12 rounded-full">
                 <Link href="/about-us">Learn More</Link>
               </Button>
             </div>
 
             {/* Feature Pills */}
-            <div 
-              className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4 max-w-xl mx-auto"
-              style={{ transform: `translateY(${scrollY * -0.05}px)` }}
-            >
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Gift className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Best Deals</span>
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in px-4 max-w-xl mx-auto">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-yellow-200">
+                <Gift className="w-3 h-3 md:w-4 md:h-4 text-orange-500 flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Best Deals</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Quality Assured</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-purple-200">
+                <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-purple-600 flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Quality Assured</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Fast Delivery</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-pink-200">
+                <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-pink-500 flex-shrink-0" />
+                <span className="text-xs md:text-sm font-medium text-purple-900 whitespace-nowrap">Fast Delivery</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-gray-200">
-                <Heart className="w-3 h-3 md:w-4 md:h-4 text-primary flex-shrink-0" />
-                <span className="text-xs md:text-sm font-medium text-gray-700 whitespace-nowrap">Trusted by 1000s</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 bg-gradient-to-r from-red-500 to-pink-500 backdrop-blur-sm rounded-full shadow-lg shadow-red-500/30 border-2 border-red-400">
+                <Heart className="w-3 h-3 md:w-4 md:h-4 text-white fill-white flex-shrink-0 animate-pulse" />
+                <span className="text-xs md:text-sm font-bold text-white whitespace-nowrap">Trusted by 1000s</span>
               </div>
             </div>
           </div>
 
-        </div>
-
-        {/* Scroll Down Indicator with Arrow Animation */}
-        <div className="absolute bottom-8 md:bottom-20 left-0 right-0 flex justify-center z-20">
-          <div 
-            className="flex flex-col items-center gap-2 md:gap-3 cursor-pointer animate-bounce"
-            onClick={() => document.getElementById('featured-products')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <span className="text-xs md:text-sm font-semibold text-gray-700 uppercase tracking-wider">Scroll Down</span>
-            <div className="flex flex-col gap-1">
-              <svg className="w-6 h-6 md:w-8 md:h-8 text-primary animate-arrow-down" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
-            <div className="w-5 h-8 md:w-6 md:h-10 border-2 border-primary rounded-full flex items-start justify-center p-1.5 md:p-2">
-              <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-primary rounded-full animate-scroll-indicator"></div>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section id="featured-products" className="py-10 md:py-16 px-4 md:px-6 scroll-mt-16 bg-white">
+      {/* Featured Products - Carousel with Enhanced Cards */}
+      <section id="featured-products" className="py-10 md:py-16 px-4 md:px-6 scroll-mt-16 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8 md:mb-10 text-center">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4 animate-fade-in-up">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-3 md:mb-4 animate-fade-in-up">
               Featured Products
             </h2>
             <p className="text-gray-600 text-sm md:text-base lg:text-lg animate-fade-in-up delay-200 px-2">
-              Discover our carefully curated selection of combo packs
+              Hover to explore our exclusive collection
             </p>
           </div>
-          <div className="animate-fade-in-up delay-300">
-            <ProductCarousel products={products} />
+          
+          {/* Enhanced Product Carousel */}
+          <div className="relative pt-8 pb-8">
+            <ProductCarousel 
+              products={products.slice(0, 8)} 
+              renderCard={(product, index) => (
+                <div className="group cursor-pointer h-full px-2 py-2">
+                  <div className="relative overflow-hidden rounded-3xl bg-white shadow-2xl border-4 transition-all duration-500 group-hover:border-purple-400 group-hover:shadow-purple-300/50 group-hover:-translate-y-3 h-full"
+                    style={{
+                      borderColor: index % 5 === 0 ? 'rgb(192, 132, 252)' : index % 5 === 1 ? 'rgb(251, 146, 60)' : index % 5 === 2 ? 'rgb(236, 72, 153)' : index % 5 === 3 ? 'rgb(168, 85, 247)' : 'rgb(249, 115, 22)'
+                    }}
+                  >
+                    {/* Badge */}
+                    {index === 0 && (
+                      <div className="absolute top-4 right-4 z-20">
+                        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-bounce">
+                          ⭐ TOP PICK
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Product Image */}
+                    <div className="relative h-48 md:h-64 overflow-hidden">
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                    </div>
+
+                    {/* Product Details */}
+                    <div className="p-6">
+                      <div className="mb-4">
+                        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors line-clamp-2">
+                          {product.name}
+                        </h3>
+                        <p className="text-sm text-gray-600 line-clamp-2 group-hover:line-clamp-3 transition-all">
+                          {product.description}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            ₹{product.price.toLocaleString()}
+                          </span>
+                        </div>
+                        <Link href={`/products/${product.id}`}>
+                          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
+                            View Details
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
           </div>
         </div>
       </section>
 
       {/* Trust Badges */}
-      <section className="py-6 md:py-8 px-4 md:px-6 overflow-hidden">
+      <section className="py-6 md:py-8 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <Card 
-              className="p-6 text-center border-gray-200 bg-white group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+            <Card
+              className="p-6 text-center border-4 border-purple-300 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-300/50 hover:border-purple-400 rounded-3xl"
               style={{
                 animation: 'flipInX 0.8s ease-out',
                 animationDelay: '0ms'
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-100 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-blue-200">
-                  <Truck className="h-7 w-7 text-blue-600 transition-transform duration-500 group-hover:scale-125" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 shadow-lg shadow-blue-500/30">
+                  <Truck className="h-8 w-8 text-white transition-transform duration-500 group-hover:scale-125" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 transition-colors duration-300 group-hover:text-blue-600">Fast Delivery</h3>
-                <p className="text-gray-600 text-sm transition-all duration-300 group-hover:text-gray-700">
+                <h3 className="text-lg font-heading font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Fast Delivery</h3>
+                <p className="text-gray-700 text-sm font-medium">
                   Get your products delivered quickly and safely to your doorstep
                 </p>
               </div>
             </Card>
 
-            <Card 
-              className="p-6 text-center border-gray-200 bg-white group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+            <Card
+              className="p-6 text-center border-4 border-green-300 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-green-300/50 hover:border-green-400 rounded-3xl"
               style={{
                 animation: 'flipInX 0.8s ease-out',
                 animationDelay: '150ms'
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-green-200/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-100 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-emerald-200">
-                  <Headset className="h-7 w-7 text-emerald-600 transition-transform duration-500 group-hover:scale-125" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 shadow-lg shadow-green-500/30">
+                  <Headphones className="h-8 w-8 text-white transition-transform duration-500 group-hover:scale-125" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 transition-colors duration-300 group-hover:text-emerald-600">24/7 Support</h3>
-                <p className="text-gray-600 text-sm transition-all duration-300 group-hover:text-gray-700">
+                <h3 className="text-lg font-heading font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">24/7 Support</h3>
+                <p className="text-gray-700 text-sm font-medium">
                   Our customer support team is always here to help you
                 </p>
               </div>
             </Card>
 
-            <Card 
-              className="p-6 text-center border-gray-200 bg-white group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+            <Card
+              className="p-6 text-center border-4 border-pink-300 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-pink-300/50 hover:border-pink-400 rounded-3xl"
               style={{
                 animation: 'flipInX 0.8s ease-out',
                 animationDelay: '300ms'
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-200/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-purple-100 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-purple-200">
-                  <ShieldCheck className="h-7 w-7 text-purple-600 transition-transform duration-500 group-hover:scale-125" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 shadow-lg shadow-purple-500/30">
+                  <ShieldCheck className="h-8 w-8 text-white transition-transform duration-500 group-hover:scale-125" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 transition-colors duration-300 group-hover:text-purple-600">Quality Guarantee</h3>
-                <p className="text-gray-600 text-sm transition-all duration-300 group-hover:text-gray-700">
+                <h3 className="text-lg font-heading font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Quality Guarantee</h3>
+                <p className="text-gray-700 text-sm font-medium">
                   100% satisfaction guarantee on all our products
                 </p>
               </div>

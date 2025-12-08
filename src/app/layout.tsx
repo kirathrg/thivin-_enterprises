@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -10,7 +10,8 @@ import { Providers } from "./providers";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone } from "lucide-react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
   title: "Thivin Enterprises - Quality Home Appliances",
@@ -37,10 +38,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans`}>
         <Providers>
           <TooltipProvider>
-            <div className="flex min-h-screen bg-white">
+            <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
               <div className="flex-1 flex flex-col">
                 <TopHeader />
                 <main className="pt-16 flex-1">

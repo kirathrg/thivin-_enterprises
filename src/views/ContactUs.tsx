@@ -59,7 +59,7 @@ const AnimatedBox: React.FC<AnimatedBoxProps> = ({ children, direction, delay = 
 
 const ContactUs = () => {
   return (
-    <div className="min-h-screen bg-white pt-20 pb-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 pt-20 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">

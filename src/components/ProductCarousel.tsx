@@ -13,30 +13,35 @@ import {
 
 interface ProductCarouselProps {
   products: Product[];
+  renderCard?: (product: Product, index: number) => React.ReactNode;
 }
 
-const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
+const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, renderCard }) => {
   return (
     <Carousel
       opts={{
         align: "start",
         loop: true,
       }}
-      className="w-full max-w-6xl mx-auto px-4 md:px-0"
+      className="w-full max-w-6xl mx-auto px-4 md:px-0 overflow-visible"
     >
-      <CarouselContent className="-ml-2 md:-ml-4">
+      <CarouselContent className="-ml-2 md:-ml-4 overflow-visible py-2">
         {products.map((product, index) => (
           <CarouselItem 
             key={product.id} 
-            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3 md:animate-fade-in-up"
+            className="pl-2 md:pl-4 basis-[85%] sm:basis-1/2 md:basis-1/2 lg:basis-1/3 md:animate-fade-in-up overflow-visible"
             style={{
               animationDelay: `${index * 0.1}s`,
               animationFillMode: 'both',
             }}
           >
-            <div className="p-1">
-              <ProductCard product={product} />
-            </div>
+            {renderCard ? (
+              renderCard(product, index)
+            ) : (
+              <div className="p-1">
+                <ProductCard product={product} />
+              </div>
+            )}
           </CarouselItem>
         ))}
       </CarouselContent>

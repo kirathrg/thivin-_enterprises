@@ -30,10 +30,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="flex flex-col w-full sm:max-w-lg">
         <SheetHeader>
-          <SheetTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex items-center gap-2">
-            <ShoppingBag className="h-6 w-6 text-blue-600" />
+          <SheetTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
+            <ShoppingBag className="h-6 w-6 text-purple-600" />
             Your Cart
-            <Badge className="ml-2 bg-blue-600">{cartItemCount}</Badge>
+            <Badge className="ml-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white">{cartItemCount}</Badge>
           </SheetTitle>
         </SheetHeader>
         <Separator className="my-4" />

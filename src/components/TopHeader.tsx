@@ -61,18 +61,18 @@ const TopHeader = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center px-4 md:px-6">
+      <header className="fixed top-0 left-0 right-0 z-30 h-16 bg-gradient-to-r from-purple-600 to-orange-500 shadow-lg flex items-center px-4 md:px-6">
         {/* Mobile Menu Button - First on mobile */}
         <div className="md:hidden mr-2">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                <Menu className="h-6 w-6 text-gray-700" />
+              <Button variant="ghost" size="icon" className="hover:bg-white/20">
+                <Menu className="h-6 w-6 text-white" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-0">
-              <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-gray-200">
-                <SheetTitle className="flex items-center gap-2 text-gray-900 font-semibold">
+              <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-orange-50">
+                <SheetTitle className="flex items-center gap-2 text-purple-900 font-semibold">
                   <img
                     src="/logo.png"
                     alt="Logo"
@@ -137,7 +137,7 @@ const TopHeader = () => {
               alt="Thivin Enterprises Logo"
               className="h-10 w-10 object-contain rounded-full flex-shrink-0"
             />
-            <span className="hidden sm:block text-lg font-semibold text-gray-900 whitespace-nowrap">
+            <span className="hidden sm:block text-lg font-semibold text-white whitespace-nowrap">
               Thivin Enterprises
             </span>
           </Link>
@@ -147,12 +147,12 @@ const TopHeader = () => {
         <div className="flex-1 max-w-md">
           <Button
             variant="outline"
-            className="w-full justify-start text-muted-foreground border-gray-200 hover:border-gray-300 hover:bg-gray-50 h-9 px-3"
+            className="w-full justify-start text-white/90 border-white/30 hover:border-white/50 hover:bg-white/20 h-9 px-3 bg-white/10 backdrop-blur-sm"
             onClick={() => setIsCommandPaletteOpen(true)}
           >
-            <Search className="h-4 w-4 mr-2 text-gray-500 flex-shrink-0" />
-            <span className="text-sm truncate">Search...</span>
-            <kbd className="ml-auto pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600">
+            <Search className="h-4 w-4 mr-2 text-white flex-shrink-0" />
+            <span className="text-sm truncate text-white">Search...</span>
+            <kbd className="ml-auto pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-white/40 bg-white/20 px-1.5 font-mono text-[10px] font-medium text-white">
               <span className="text-xs">⌘</span>K
             </kbd>
           </Button>
@@ -162,7 +162,7 @@ const TopHeader = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden hover:bg-gray-100 text-gray-700 hover:text-gray-900 ml-2"
+          className="md:hidden hover:bg-white/20 text-white ml-2"
           onClick={() => setIsPWAPromptOpen(true)}
         >
           <Smartphone className="h-5 w-5" />
@@ -181,12 +181,12 @@ const TopHeader = () => {
                   <button
                     key={item.label}
                     onClick={item.onClick}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 relative"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-white hover:bg-white/20 relative"
                   >
                     <Icon className="h-4 w-4" />
                     {item.label}
                     {item.label === "Cart" && cartItemCount > 0 && (
-                      <Badge className="ml-1 h-5 min-w-5 flex items-center justify-center p-0 bg-primary text-white text-xs">
+                      <Badge className="ml-1 h-5 min-w-5 flex items-center justify-center p-0 bg-yellow-400 text-purple-900 text-xs font-bold">
                         {cartItemCount}
                       </Badge>
                     )}
@@ -201,8 +201,8 @@ const TopHeader = () => {
                   className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-primary text-white"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-white/30 text-white shadow-md backdrop-blur-sm"
+                      : "text-white hover:bg-white/20"
                   )}
                 >
                   <Icon className="h-4 w-4" />
@@ -216,8 +216,8 @@ const TopHeader = () => {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                  <User className="h-5 w-5 text-gray-700" />
+                <Button variant="ghost" size="icon" className="hover:bg-white/20">
+                  <User className="h-5 w-5 text-white" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -245,7 +245,7 @@ const TopHeader = () => {
             <Button
               variant="default"
               size="sm"
-              className="bg-primary hover:bg-primary/90 text-white"
+              className="bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-sm"
               onClick={() => setIsAuthModalOpen(true)}
             >
               <LogIn className="h-4 w-4 mr-2" />

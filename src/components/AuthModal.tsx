@@ -11,8 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuthStore } from "@/store/useAuthStore";
 import { Separator } from "@/components/ui/separator";
+import { useAuthStore } from "@/store/useAuthStore";
 import { z } from "zod";
 import { toast } from "sonner";
 
@@ -92,7 +92,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleGoogleAuth = () => {
-    // TODO: Implement Google OAuth
     toast.info("Google authentication coming soon!");
   };
 

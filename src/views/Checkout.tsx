@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useCartStore, selectCartTotal } from "@/store/useCartStore";
 import { useAuthStore, Address } from "@/store/useAuthStore";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, MapPin, CreditCard, Smartphone, Wallet, Building2, Banknote, CheckCircle, Package, Plus } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import { ArrowLeft, MapPin, CreditCard, CheckCircle, Package, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import AddressForm from "@/components/AddressForm";
+import { initiateRazorpayPayment } from "@/lib/razorpay";
 
 const Checkout = () => {
   const { cartItems, clearCart } = useCartStore();
@@ -22,8 +21,8 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [isSelectingAddress, setIsSelectingAddress] = useState(false);
   const [isAddingAddress, setIsAddingAddress] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("upi");
   const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [orderDetails, setOrderDetails] = useState<{
     orderId: string;
     total: number;
@@ -69,48 +68,160 @@ const Checkout = () => {
     setIsSelectingAddress(false);
   };
 
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
+    if (isProcessing) return;
+
     if (!selectedAddress) {
       toast.error("Please add a delivery address.");
       return;
     }
 
-    if (!paymentMethod) {
-      toast.error("Please select a payment method.");
-      return;
-    }
+    setIsProcessing(true);
+    toast.loading("Creating order...", { id: "payment-processing" });
 
-    // Integrate with Razorpay here
-    toast.loading("Processing payment...", { id: "payment-processing" });
-    setTimeout(() => {
+    try {
+      // Create Razorpay order on backend
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+
+      let createOrderResponse;
+      try {
+        createOrderResponse = await fetch(`${apiBaseUrl}/razorpay/create-order`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: cartTotal,
+            currency: 'INR',
+            receipt: `receipt_${Date.now()}`,
+          }),
+        });
+      } catch (fetchError) {
+        console.error('Fetch error:', fetchError);
+        throw new Error(
+          fetchError instanceof Error
+            ? `Failed to connect to backend: ${fetchError.message}`
+            : 'Failed to connect to backend. Please ensure the backend server is running on http://localhost:8000'
+        );
+      }
+
+      if (!createOrderResponse.ok) {
+        const errorText = await createOrderResponse.text();
+        let errorMessage = 'Failed to create order';
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const orderData = await createOrderResponse.json();
       toast.dismiss("payment-processing");
-      toast.success("Payment successful!");
 
-      // Generate order ID
-      const orderId = `ORD${Date.now()}`;
+      // Initiate Razorpay payment
+      await initiateRazorpayPayment(
+        {
+          id: orderData.id,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          key_id: orderData.key_id,
+        },
+        {
+          name: 'Thivin Enterprises',
+          description: `Order for ${cartItems.length} item(s)`,
+          prefill: {
+            name: selectedAddress.fullName,
+            email: user?.email || '',
+            contact: user?.phone || '',
+          },
+          onSuccess: async (paymentId, orderId, signature) => {
+            try {
+              // Verify payment on backend
+              let verifyResponse;
+              try {
+                verifyResponse = await fetch(`${apiBaseUrl}/razorpay/verify-payment`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    razorpay_order_id: orderId,
+                    razorpay_payment_id: paymentId,
+                    razorpay_signature: signature,
+                  }),
+                });
+              } catch (fetchError) {
+                console.error('Verify payment fetch error:', fetchError);
+                throw new Error(
+                  fetchError instanceof Error
+                    ? `Failed to verify payment: ${fetchError.message}`
+                    : 'Failed to connect to backend for payment verification'
+                );
+              }
 
-      // Save order details
-      setOrderDetails({
-        orderId,
-        total: cartTotal,
-        address: selectedAddress,
-        method: paymentMethod,
-      });
+              if (!verifyResponse.ok) {
+                const errorText = await verifyResponse.text();
+                let errorMessage = 'Payment verification failed';
+                try {
+                  const errorData = JSON.parse(errorText);
+                  errorMessage = errorData.error || errorMessage;
+                } catch {
+                  errorMessage = errorText || errorMessage;
+                }
+                throw new Error(errorMessage);
+              }
 
-      clearCart();
-      setOrderConfirmed(true);
-    }, 2000);
+              const verifyData = await verifyResponse.json();
+
+              if (verifyData.success) {
+                // Generate order ID
+                const finalOrderId = `ORD${Date.now()}`;
+
+                // Save order details
+                setOrderDetails({
+                  orderId: finalOrderId,
+                  total: cartTotal,
+                  address: selectedAddress,
+                  method: 'razorpay',
+                });
+
+                clearCart();
+                setOrderConfirmed(true);
+                toast.success("Payment successful! Order placed.");
+              } else {
+                throw new Error('Payment verification failed');
+              }
+            } catch (error) {
+              console.error('Payment verification error:', error);
+              toast.error(error instanceof Error ? error.message : 'Payment verification failed');
+              setIsProcessing(false);
+            }
+          },
+          onError: (error) => {
+            // Check if user cancelled the payment
+            if (error === 'Payment cancelled by user' || error.includes('cancelled')) {
+              toast.info('Payment cancelled. You can try again when ready.');
+              setIsProcessing(false);
+            } else {
+              console.error('Payment error:', error);
+              toast.error(error);
+              setIsProcessing(false);
+            }
+          },
+        }
+      );
+    } catch (error) {
+      toast.dismiss("payment-processing");
+      console.error('Order creation error:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to create order');
+      setIsProcessing(false);
+    }
   };
 
   // Show confirmation page after order is placed
   if (orderConfirmed && orderDetails) {
-    const paymentMethodNames: Record<string, string> = {
-      upi: "UPI / QR",
-      card: "Credit / Debit Card",
-      cod: "Cash on Delivery",
-      netbanking: "Net Banking",
-      wallet: "Razorpay Wallet",
-    };
 
     return (
       <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
@@ -143,7 +254,7 @@ const Checkout = () => {
                 <div className="flex items-center justify-between pb-4 border-b">
                   <span className="text-gray-600">Payment Method</span>
                   <span className="font-semibold text-gray-900">
-                    {paymentMethodNames[orderDetails.method]}
+                    Razorpay (Online Payment)
                   </span>
                 </div>
                 <div className="flex items-start justify-between">
@@ -211,7 +322,7 @@ const Checkout = () => {
   return (
     <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
       <div className="container mx-auto px-4 py-4 md:px-8 md:py-8 max-w-6xl">
-        <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100">
+        <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100 active:bg-gray-200 text-charcoal">
           <Link href="/" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" /> Continue Shopping
           </Link>
@@ -273,67 +384,16 @@ const Checkout = () => {
                 <CardTitle className="text-lg text-gray-900">Payment Method</CardTitle>
               </CardHeader>
               <CardContent>
-                <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-3">
-                  {/* UPI Payment */}
-                  <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <RadioGroupItem value="upi" id="upi" />
-                    <Label htmlFor="upi" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Smartphone className="h-5 w-5 text-dusty-rose" />
-                      <div>
-                        <p className="font-medium text-gray-900">UPI / QR</p>
-                        <p className="text-xs text-gray-500">Google Pay, PhonePe, Paytm & more</p>
-                      </div>
-                    </Label>
+                <div className="flex items-center space-x-3 border rounded-lg p-4 bg-gray-50">
+                  <CreditCard className="h-5 w-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium text-gray-900">Razorpay Online Payment</p>
+                    <p className="text-xs text-gray-500">Secure payment via Razorpay - UPI, Cards, Net Banking & more</p>
                   </div>
-
-                  {/* Credit/Debit Card */}
-                  <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <RadioGroupItem value="card" id="card" />
-                    <Label htmlFor="card" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <CreditCard className="h-5 w-5 text-dusty-rose" />
-                      <div>
-                        <p className="font-medium text-gray-900">Credit / Debit Card</p>
-                        <p className="text-xs text-gray-500">Visa, Mastercard, Amex, RuPay & more</p>
-                      </div>
-                    </Label>
-                  </div>
-
-                  {/* Cash on Delivery */}
-                  <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <RadioGroupItem value="cod" id="cod" />
-                    <Label htmlFor="cod" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Banknote className="h-5 w-5 text-green-600" />
-                      <div>
-                        <p className="font-medium text-gray-900">Cash on Delivery</p>
-                        <p className="text-xs text-gray-500">Pay when you receive</p>
-                      </div>
-                    </Label>
-                  </div>
-
-                  {/* Net Banking */}
-                  <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <RadioGroupItem value="netbanking" id="netbanking" />
-                    <Label htmlFor="netbanking" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Building2 className="h-5 w-5 text-dusty-rose" />
-                      <div>
-                        <p className="font-medium text-gray-900">Net Banking</p>
-                        <p className="text-xs text-gray-500">All major banks supported</p>
-                      </div>
-                    </Label>
-                  </div>
-
-                  {/* Razorpay Wallet */}
-                  <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <RadioGroupItem value="wallet" id="wallet" />
-                    <Label htmlFor="wallet" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Wallet className="h-5 w-5 text-indigo-600" />
-                      <div>
-                        <p className="font-medium text-gray-900">Razorpay Wallet</p>
-                        <p className="text-xs text-gray-500">Fast & secure payments</p>
-                      </div>
-                    </Label>
-                  </div>
-                </RadioGroup>
+                </div>
+                <p className="text-xs text-gray-500 mt-3">
+                  You will be redirected to Razorpay's secure payment page to complete your transaction.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -362,10 +422,11 @@ const Checkout = () => {
                 <Button
                   onClick={handlePaymentSubmit}
                   size="lg"
-                  className="w-full bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md"
+                  className="w-full bg-dusty-rose hover:bg-dusty-rose/90 text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
+                  disabled={isProcessing}
                 >
-                  <Wallet className="h-4 w-4 mr-2" />
-                  Place Order
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  {isProcessing ? "Processing..." : "Proceed to Payment"}
                 </Button>
                 <p className="text-xs text-center text-gray-500">
                   By placing your order, you agree to our terms and conditions

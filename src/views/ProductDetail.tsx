@@ -51,7 +51,7 @@ const ProductDetail = () => {
         <p className="text-lg text-gray-700 mb-6">
           The product you are looking for does not exist.
         </p>
-        <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
+        <Button asChild className="bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md">
           <Link href="/" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
@@ -62,7 +62,7 @@ const ProductDetail = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-8 min-h-[calc(100vh-64px)]">
-      <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100">
+      <Button asChild variant="ghost" className="mb-6 hover:bg-gray-100 active:bg-gray-200 text-charcoal">
         <Link href="/products" className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
@@ -76,7 +76,7 @@ const ProductDetail = () => {
             className="w-full h-auto object-cover"
           />
         </Card>
-        
+
         <div className="flex flex-col gap-6">
           <div>
             <Badge className="mb-4 bg-primary">Featured Product</Badge>
@@ -85,9 +85,9 @@ const ProductDetail = () => {
               ₹{product.price.toLocaleString()}
             </p>
           </div>
-          
+
           <Separator />
-          
+
           <Card className="border-gray-200 bg-gray-50">
             <CardHeader>
               <CardDescription className="text-gray-700 leading-relaxed text-base">{product.description}</CardDescription>

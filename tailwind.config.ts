@@ -47,11 +47,14 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
-          purple: "hsl(var(--accent-purple))",
-          orange: "hsl(var(--accent-orange))",
-          pink: "hsl(var(--accent-pink))",
-          teal: "hsl(var(--accent-teal))",
+          terracotta: "hsl(var(--accent-terracotta))",
+          wood: "hsl(var(--accent-wood))",
         },
+        // Custom color palette - Template inspired
+        'dusty-rose': "#C4847A",
+        'light-neutral': "#F8F8F8",
+        'charcoal': "#333333",
+        terracotta: "#B8685E",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

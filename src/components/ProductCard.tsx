@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <Card className="flex flex-col overflow-hidden transition-all duration-500 border-4 border-purple-300 bg-white group h-full md:hover:shadow-2xl md:hover:shadow-purple-300/50 md:hover:-translate-y-3 md:hover:border-purple-400 rounded-3xl">
+    <Card className="flex flex-col overflow-hidden transition-all duration-300 border-0 bg-white group h-full md:hover:shadow-lg md:hover:-translate-y-2 rounded-xl">
       <Link href={`/products/${product.id}`} className="block relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-60 md:group-hover:opacity-40 transition-opacity duration-500 z-10"></div>
         <img
@@ -33,23 +33,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         />
       </Link>
       <CardHeader className="flex-grow pb-2 md:pb-3 px-3 md:px-6 pt-3 md:pt-6">
-        <CardTitle className="text-base md:text-lg font-semibold text-gray-900 line-clamp-2 leading-snug md:group-hover:text-purple-600 transition-colors">
+        <CardTitle className="text-base md:text-lg font-semibold text-charcoal line-clamp-2 leading-snug md:group-hover:text-dusty-rose transition-colors">
           <Link href={`/products/${product.id}`}>
             {product.name}
           </Link>
         </CardTitle>
+        <p className="text-xs md:text-sm text-gray-500 mt-1 line-clamp-2">{product.description}</p>
       </CardHeader>
-      <CardContent className="flex-grow-0 pt-0 px-3 md:px-6">
-        <p className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+      <CardContent className="flex-grow-0 pt-2 md:pt-0 px-3 md:px-6 pb-2">
+        <p className="text-lg md:text-2xl font-bold text-dusty-rose">
           ₹{product.price.toLocaleString()}
         </p>
       </CardContent>
-      <CardFooter className="pt-3 md:pt-4 px-3 md:px-6 pb-3 md:pb-6">
+      <CardFooter className="pt-2 md:pt-4 px-3 md:px-6 pb-4 md:pb-6">
         <Link href={`/products/${product.id}`} className="w-full">
           <Button
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex items-center justify-center gap-2 h-9 md:h-10 text-sm md:text-base transition-all duration-300 md:hover:scale-105 md:hover:shadow-lg active:scale-95 rounded-full"
+            className="w-full bg-dusty-rose hover:bg-dusty-rose/90 text-white flex items-center justify-center gap-2 h-10 md:h-10 text-sm md:text-base transition-all duration-300 active:scale-95 rounded-md"
           >
-            View More
+            View Details
           </Button>
         </Link>
       </CardFooter>

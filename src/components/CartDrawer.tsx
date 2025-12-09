@@ -36,10 +36,10 @@ const CartContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
-          <ShoppingBag className="h-6 w-6 text-purple-600" />
+        <h2 className="text-2xl font-bold text-charcoal flex items-center gap-2">
+          <ShoppingBag className="h-6 w-6 text-dusty-rose" />
           Your Cart
-          <Badge className="ml-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white">{cartItemCount}</Badge>
+          <Badge className="ml-2 bg-dusty-rose text-white">{cartItemCount}</Badge>
         </h2>
       </div>
       <Separator className="mb-4" />
@@ -64,7 +64,7 @@ const CartContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-base line-clamp-1">{item.name}</h3>
-                    <p className="text-purple-600 font-medium">₹{item.price.toLocaleString()}</p>
+                    <p className="text-dusty-rose font-medium">₹{item.price.toLocaleString()}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Button
                         variant="outline"
@@ -104,12 +104,12 @@ const CartContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div className="flex flex-col gap-4 pt-4 border-t border-gray-200 mt-4">
         <div className="flex justify-between items-center text-lg font-semibold text-gray-900">
           <span>Total:</span>
-          <span className="text-purple-600">₹{cartTotal.toLocaleString()}</span>
+          <span className="text-dusty-rose">₹{cartTotal.toLocaleString()}</span>
         </div>
         {cartItems.length === 0 ? (
           <Button
             size="lg"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
             disabled
           >
             Proceed to Checkout
@@ -118,7 +118,7 @@ const CartContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Button
             asChild
             size="lg"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
           >
             <Link href="/checkout" onClick={onClose}>
               Proceed to Checkout
@@ -157,7 +157,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   // Desktop: Use Dialog (floating centered modal with rounded corners)
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl w-full max-h-[85vh] rounded-3xl shadow-2xl border-4 border-purple-200 bg-white p-6 flex flex-col overflow-hidden">
+      <DialogContent className="max-w-2xl w-full max-h-[85vh] rounded-xl shadow-lg border-0 bg-white p-6 flex flex-col overflow-hidden">
         <DialogHeader className="sr-only">
           <DialogTitle>Shopping Cart</DialogTitle>
         </DialogHeader>

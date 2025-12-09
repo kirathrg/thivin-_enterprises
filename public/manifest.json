@@ -2,13 +2,16 @@
   "name": "Thivin Enterprises - Home Appliances",
   "short_name": "Thivin Enterprises",
   "description": "Your one-stop shop for quality home appliances and combo packs",
-  "theme_color": "#9333ea",
-  "background_color": "#faf5ff",
+  "theme_color": "#C4847A",
+  "background_color": "#FDF8F5",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
-  "categories": ["shopping", "business"],
+  "categories": [
+    "shopping",
+    "business"
+  ],
   "prefer_related_applications": false,
   "icons": [
     {

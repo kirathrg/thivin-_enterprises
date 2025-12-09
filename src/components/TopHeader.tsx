@@ -61,164 +61,161 @@ const TopHeader = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 h-16 bg-gradient-to-r from-purple-600 to-orange-500 shadow-lg">
+      <header className="fixed top-0 left-0 right-0 z-30 h-16 bg-white border-b border-gray-200 shadow-sm">
         <div className="h-full flex items-center justify-between px-3 md:px-6 gap-2">
-          {/* Mobile Menu Button - First on mobile */}
-          <div className="md:hidden flex-shrink-0">
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="hover:bg-white/20 h-10 w-10">
-                  <Menu className="h-5 w-5 text-white" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-64 p-0">
-                <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-orange-50">
-                  <SheetTitle className="flex items-center gap-2 text-purple-900 font-semibold">
-                    <img
-                      src="/logo.png"
-                      alt="Logo"
-                      className="h-8 w-8 object-contain rounded-full flex-shrink-0"
-                    />
-                    <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col p-3">
-                  {mainNavigation.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.href;
+          {/* Left Section: Mobile Menu + Logo */}
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="hover:bg-gray-100 h-10 w-10">
+                    <Menu className="h-5 w-5 text-charcoal" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-64 p-0">
+                  <SheetHeader className="h-16 flex items-center justify-center px-4 border-b border-gray-200 bg-white">
+                    <SheetTitle className="flex items-center gap-2 text-charcoal font-semibold">
+                      <img
+                        src="/logo.png"
+                        alt="Logo"
+                        className="h-8 w-8 object-contain rounded-full flex-shrink-0"
+                      />
+                      <span className="text-sm whitespace-nowrap">Thivin Enterprises</span>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <nav className="flex flex-col p-3">
+                    {mainNavigation.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = pathname === item.href;
 
-                    if (item.onClick) {
+                      if (item.onClick) {
+                        return (
+                          <button
+                            key={item.label}
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              item.onClick();
+                            }}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 w-full text-left"
+                          >
+                            <Icon className="h-4 w-4" />
+                            <span>{item.label}</span>
+                            {item.label === "Cart" && cartItemCount > 0 && (
+                              <span className="ml-auto bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {cartItemCount}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      }
+
                       return (
-                        <button
-                          key={item.label}
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            item.onClick();
-                          }}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 w-full text-left"
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={cn(
+                            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                            isActive
+                              ? "bg-dusty-rose text-white"
+                              : "text-charcoal hover:bg-gray-100"
+                          )}
                         >
                           <Icon className="h-4 w-4" />
-                          <span>{item.label}</span>
-                          {item.label === "Cart" && cartItemCount > 0 && (
-                            <span className="ml-auto bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                              {cartItemCount}
-                            </span>
-                          )}
-                        </button>
+                          {item.label}
+                        </Link>
                       );
-                    }
+                    })}
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
 
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={cn(
-                          "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                          isActive
-                            ? "bg-primary text-white"
-                            : "text-gray-700 hover:bg-gray-100"
-                        )}
-                      >
-                        <Icon className="h-4 w-4" />
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          {/* Left: Logo and Brand */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Logo and Brand */}
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <img
                 src="/logo.png"
                 alt="Thivin Enterprises Logo"
                 className="h-9 w-9 object-contain rounded-full flex-shrink-0"
               />
-              <span className="hidden sm:block text-base font-semibold text-white whitespace-nowrap">
+              <span className="hidden sm:block text-base font-semibold text-charcoal whitespace-nowrap">
                 Thivin Enterprises
               </span>
             </Link>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-md min-w-0">
-            <Button
-              variant="outline"
-              className="w-full justify-start text-white/90 border-white/30 hover:border-white/50 hover:bg-white/20 h-10 px-3 bg-white/10 backdrop-blur-sm"
-              onClick={() => setIsCommandPaletteOpen(true)}
-            >
-              <Search className="h-4 w-4 mr-2 text-white flex-shrink-0" />
-              <span className="text-sm truncate text-white">Search...</span>
-              <kbd className="ml-auto pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-white/40 bg-white/20 px-1.5 font-mono text-[10px] font-medium text-white">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </Button>
-          </div>
+          {/* Center Navigation - Desktop */}
+          <nav className="hidden md:flex items-center gap-1 flex-1 justify-center">
+            {mainNavigation.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
+
+              if (item.onClick) {
+                return (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-charcoal hover:bg-gray-100 relative"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                    {item.label === "Cart" && cartItemCount > 0 && (
+                      <Badge className="ml-1 h-5 min-w-5 flex items-center justify-center p-0 bg-accent text-accent-foreground text-xs font-bold">
+                        {cartItemCount}
+                      </Badge>
+                    )}
+                  </button>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-dusty-rose text-white shadow-sm"
+                      : "text-charcoal hover:bg-gray-100"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
 
           {/* Right Actions */}
           <div className="flex items-center gap-1 flex-shrink-0">
+            {/* Search Icon Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-gray-100 text-charcoal h-10 w-10"
+              onClick={() => setIsCommandPaletteOpen(true)}
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
             {/* PWA Install Button - Mobile Only */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden hover:bg-white/20 text-white h-10 w-10"
+              className="md:hidden hover:bg-gray-100 text-charcoal h-10 w-10"
               onClick={() => setIsPWAPromptOpen(true)}
             >
               <Smartphone className="h-5 w-5" />
             </Button>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
-              {mainNavigation.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-
-                if (item.onClick) {
-                  return (
-                    <button
-                      key={item.label}
-                      onClick={item.onClick}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-white hover:bg-white/20 relative"
-                    >
-                      <Icon className="h-4 w-4" />
-                      {item.label}
-                      {item.label === "Cart" && cartItemCount > 0 && (
-                        <Badge className="ml-1 h-5 min-w-5 flex items-center justify-center p-0 bg-yellow-400 text-purple-900 text-xs font-bold">
-                          {cartItemCount}
-                        </Badge>
-                      )}
-                    </button>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-white/30 text-white shadow-md backdrop-blur-sm"
-                        : "text-white hover:bg-white/20"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
             {/* User Menu - Only when authenticated */}
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hover:bg-white/20 h-10 w-10">
-                    <User className="h-5 w-5 text-white" />
+                  <Button variant="ghost" className="hover:bg-gray-100 h-10 px-2 md:px-3 gap-2">
+                    <User className="h-5 w-5 text-charcoal" />
+                    <span className="hidden md:inline text-sm font-medium text-charcoal">{user?.name}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -246,7 +243,7 @@ const TopHeader = () => {
               <Button
                 variant="default"
                 size="sm"
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-sm h-10 px-3 text-sm hidden sm:flex"
+                className="bg-dusty-rose hover:bg-dusty-rose/90 text-white border-0 h-10 px-3 text-sm hidden sm:flex rounded-md"
                 onClick={() => setIsAuthModalOpen(true)}
               >
                 <LogIn className="h-4 w-4 mr-2" />
@@ -259,7 +256,7 @@ const TopHeader = () => {
               <Button
                 variant="default"
                 size="sm"
-                className="sm:hidden bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-sm h-9 px-3 text-xs"
+                className="sm:hidden bg-dusty-rose hover:bg-dusty-rose/90 text-white border-0 h-9 px-3 text-xs rounded-md"
                 onClick={() => setIsAuthModalOpen(true)}
               >
                 <LogIn className="h-4 w-4 mr-1.5" />

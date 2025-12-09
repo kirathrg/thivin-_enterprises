@@ -59,7 +59,7 @@ const AnimatedBox: React.FC<AnimatedBoxProps> = ({ children, direction, delay = 
 
 const ContactUs = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 pt-20 pb-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-alabaster via-sage-light to-secondary pt-20 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -82,15 +82,15 @@ const ContactUs = () => {
             <AnimatedBox direction="left">
               <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-300 h-full">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Mail className="w-7 h-7 text-blue-600" />
+                  <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
+                    <Mail className="w-7 h-7 text-dusty-rose" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900">Email Us</h3>
                 </div>
                 <p className="text-gray-600 mb-2">Send us an email anytime</p>
                 <a
                   href="mailto:info@thivinenterprises.com"
-                  className="text-blue-600 hover:text-blue-700 font-medium text-lg"
+                  className="text-sage hover:text-sage/90 font-medium text-lg"
                 >
                   info@thivinenterprises.com
                 </a>
@@ -121,15 +121,15 @@ const ContactUs = () => {
             <AnimatedBox direction="left" delay={200}>
               <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-300 h-full">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-7 h-7 text-purple-600" />
+                  <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
+                    <Phone className="w-7 h-7 text-dusty-rose" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900">Call Us</h3>
                 </div>
                 <p className="text-gray-600 mb-2">Mon-Fri 9am to 6pm</p>
                 <a
                   href="tel:+911234567890"
-                  className="text-purple-600 hover:text-purple-700 font-medium text-lg"
+                  className="text-sage hover:text-sage/90 font-medium text-lg"
                 >
                   +91 123 456 7890
                 </a>
@@ -170,7 +170,7 @@ const ContactUs = () => {
                   </div>
                   <h3 className="text-xl font-semibold text-white">Facebook</h3>
                 </div>
-                <p className="text-blue-100 mb-3">Follow us for updates and offers</p>
+                <p className="text-white/80 mb-3">Follow us for updates and offers</p>
                 <a
                   href="https://facebook.com/thivinenterprises"
                   target="_blank"
@@ -183,14 +183,14 @@ const ContactUs = () => {
             </AnimatedBox>
 
             <AnimatedBox direction="right" delay={600}>
-              <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
+              <div className="bg-dusty-rose rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                     <Instagram className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-white">Instagram</h3>
                 </div>
-                <p className="text-pink-100 mb-3">See our latest products and stories</p>
+                <p className="text-white/80 mb-3">See our latest products and stories</p>
                 <a
                   href="https://instagram.com/thivinenterprises"
                   target="_blank"
@@ -226,12 +226,12 @@ const ContactUs = () => {
             </AnimatedBox>
 
             <AnimatedBox direction="right" delay={800}>
-              <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full flex items-center justify-center">
+              <div className="bg-charcoal rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full flex items-center justify-center">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-white mb-2">
                     Let's Connect!
                   </h3>
-                  <p className="text-purple-100">
+                  <p className="text-white/80">
                     We're always happy to help and hear from you.
                   </p>
                 </div>

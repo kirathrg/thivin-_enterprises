@@ -1,77 +1,102 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useCartStore, selectCartTotal } from "@/store/useCartStore";
+import { useAuthStore, Address } from "@/store/useAuthStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, MapPin, Edit, CreditCard, Smartphone, Wallet, Building2, Banknote, CheckCircle, Package } from "lucide-react";
+import { ArrowLeft, MapPin, CreditCard, Smartphone, Wallet, Building2, Banknote, CheckCircle, Package, Plus } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import AddressForm from "@/components/AddressForm";
 
 const Checkout = () => {
   const { cartItems, clearCart } = useCartStore();
+  const { isAuthenticated, user, addAddress, getDefaultAddress } = useAuthStore();
   const cartTotal = useCartStore(selectCartTotal);
   const router = useRouter();
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [isSelectingAddress, setIsSelectingAddress] = useState(false);
+  const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderDetails, setOrderDetails] = useState<{
     orderId: string;
     total: number;
-    address: typeof shippingDetails;
+    address: Address;
     method: string;
   } | null>(null);
-  const [shippingDetails, setShippingDetails] = useState({
-    fullName: "KIRATHVIGNAN",
-    address: "C-15, Wireman Road, Block - 17",
-    city: "NEYVELI",
-    state: "TAMIL NADU",
-    zip: "607801",
-    country: "India",
-  });
+  const hasCheckedAuth = useRef(false);
 
-  const handleAddressUpdate = () => {
-    if (
-      !shippingDetails.fullName ||
-      !shippingDetails.address ||
-      !shippingDetails.city ||
-      !shippingDetails.zip
-    ) {
-      toast.error("Please fill in all address details.");
+  // Check authentication on mount
+  useEffect(() => {
+    if (hasCheckedAuth.current) return;
+    hasCheckedAuth.current = true;
+
+    if (!isAuthenticated) {
+      toast.error("Please sign in to proceed to checkout");
+      router.push("/");
       return;
     }
-    setIsEditingAddress(false);
-    toast.success("Address updated successfully!");
+
+    // Load default address or first address
+    const defaultAddr = getDefaultAddress();
+    if (defaultAddr) {
+      setSelectedAddress(defaultAddr);
+    } else if (user?.addresses && user.addresses.length > 0) {
+      setSelectedAddress(user.addresses[0]);
+    }
+  }, [isAuthenticated, router, getDefaultAddress, user]);
+
+  const handleAddAddress = (address: Omit<Address, 'id'>) => {
+    addAddress(address);
+    setIsAddingAddress(false);
+    // Select the newly added address
+    setTimeout(() => {
+      const newAddr = getDefaultAddress();
+      if (newAddr) {
+        setSelectedAddress(newAddr);
+      }
+    }, 100);
+  };
+
+  const handleSelectAddress = (address: Address) => {
+    setSelectedAddress(address);
+    setIsSelectingAddress(false);
   };
 
   const handlePaymentSubmit = () => {
+    if (!selectedAddress) {
+      toast.error("Please add a delivery address.");
+      return;
+    }
+
     if (!paymentMethod) {
       toast.error("Please select a payment method.");
       return;
     }
-    
+
     // Integrate with Razorpay here
     toast.loading("Processing payment...", { id: "payment-processing" });
     setTimeout(() => {
       toast.dismiss("payment-processing");
       toast.success("Payment successful!");
-      
+
       // Generate order ID
       const orderId = `ORD${Date.now()}`;
-      
+
       // Save order details
       setOrderDetails({
         orderId,
         total: cartTotal,
-        address: { ...shippingDetails },
+        address: selectedAddress,
         method: paymentMethod,
       });
-      
+
       clearCart();
       setOrderConfirmed(true);
     }, 2000);
@@ -135,24 +160,24 @@ const Checkout = () => {
               </div>
 
               {/* Status Message */}
-              <div className="flex items-center justify-center gap-2 text-gray-700 bg-blue-50 p-4 rounded-lg">
-                <Package className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center justify-center gap-2 text-gray-700 bg-gray-100 p-4 rounded-lg">
+                <Package className="h-5 w-5 text-dusty-rose" />
                 <p>Your order will be processed and shipped shortly</p>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Button 
-                  asChild 
-                  size="lg" 
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                <Button
+                  asChild
+                  size="lg"
+                  className="flex-1 bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md"
                 >
                   <Link href="/products">Continue Shopping</Link>
                 </Button>
-                <Button 
-                  asChild 
-                  variant="outline" 
-                  size="lg" 
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
                   className="flex-1"
                 >
                   <Link href="/">Go to Dashboard</Link>
@@ -170,14 +195,14 @@ const Checkout = () => {
       <div className="w-full min-h-[calc(100vh-64px)] bg-white relative z-10">
         <div className="container mx-auto px-4 py-4 text-center flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h1>
-        <p className="text-lg text-gray-600 mb-6">
-          Please add items to your cart before proceeding to checkout.
-        </p>
-        <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Link href="/" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" /> Continue Shopping
-          </Link>
-        </Button>
+          <p className="text-lg text-gray-600 mb-6">
+            Please add items to your cart before proceeding to checkout.
+          </p>
+          <Button asChild className="bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md">
+            <Link href="/" className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" /> Continue Shopping
+            </Link>
+          </Button>
         </div>
       </div>
     );
@@ -191,7 +216,7 @@ const Checkout = () => {
             <ArrowLeft className="h-4 w-4" /> Continue Shopping
           </Link>
         </Button>
-      
+
         <div className="grid md:grid-cols-3 gap-6">
           {/* Left Section - Address & Payment */}
           <div className="md:col-span-2 space-y-6">
@@ -202,102 +227,43 @@ const Checkout = () => {
                   <div className="flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-gray-600" />
                     <CardTitle className="text-lg text-gray-900">
-                      Delivering to {shippingDetails.fullName}
+                      Delivery Address
                     </CardTitle>
                   </div>
-                  <Dialog open={isEditingAddress} onOpenChange={setIsEditingAddress}>
-                    <Button variant="outline" size="sm" onClick={() => setIsEditingAddress(true)}>
-                      <Edit className="h-4 w-4 mr-1" /> Change
+                  {selectedAddress && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsSelectingAddress(true)}
+                    >
+                      Change
                     </Button>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edit Shipping Address</DialogTitle>
-                      </DialogHeader>
-                      <form onSubmit={handleAddressUpdate} className="grid gap-4 pt-4">
-                        <div>
-                          <Label htmlFor="fullName">Full Name</Label>
-                          <Input
-                            id="fullName"
-                            value={shippingDetails.fullName}
-                            onChange={(e) =>
-                              setShippingDetails({ ...shippingDetails, fullName: e.target.value })
-                            }
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="address">Address</Label>
-                          <Input
-                            id="address"
-                            value={shippingDetails.address}
-                            onChange={(e) =>
-                              setShippingDetails({ ...shippingDetails, address: e.target.value })
-                            }
-                            required
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="city">City</Label>
-                            <Input
-                              id="city"
-                              value={shippingDetails.city}
-                              onChange={(e) =>
-                                setShippingDetails({ ...shippingDetails, city: e.target.value })
-                              }
-                              required
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="state">State</Label>
-                            <Input
-                              id="state"
-                              value={shippingDetails.state}
-                              onChange={(e) =>
-                                setShippingDetails({ ...shippingDetails, state: e.target.value })
-                              }
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="zip">Zip Code</Label>
-                            <Input
-                              id="zip"
-                              value={shippingDetails.zip}
-                              onChange={(e) =>
-                                setShippingDetails({ ...shippingDetails, zip: e.target.value })
-                              }
-                              required
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="country">Country</Label>
-                            <Input
-                              id="country"
-                              value={shippingDetails.country}
-                              onChange={(e) =>
-                                setShippingDetails({ ...shippingDetails, country: e.target.value })
-                              }
-                              required
-                            />
-                          </div>
-                        </div>
-                        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white">
-                          Save Address
-                        </Button>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+                  )}
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {shippingDetails.address}<br />
-                  {shippingDetails.city}, {shippingDetails.state} - {shippingDetails.zip}<br />
-                  {shippingDetails.country}
-                </p>
+                {selectedAddress ? (
+                  <div>
+                    <p className="font-semibold text-gray-900">{selectedAddress.fullName}</p>
+                    <p className="text-sm text-gray-700 leading-relaxed mt-2">
+                      {selectedAddress.address}<br />
+                      {selectedAddress.city}, {selectedAddress.state} - {selectedAddress.zip}<br />
+                      {selectedAddress.country}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <MapPin className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                    <p className="text-gray-600 mb-4">No address found</p>
+                    <Button
+                      onClick={() => setIsAddingAddress(true)}
+                      className="bg-dusty-rose hover:bg-dusty-rose/90 text-white"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Address
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -312,7 +278,7 @@ const Checkout = () => {
                   <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                     <RadioGroupItem value="upi" id="upi" />
                     <Label htmlFor="upi" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Smartphone className="h-5 w-5 text-blue-600" />
+                      <Smartphone className="h-5 w-5 text-dusty-rose" />
                       <div>
                         <p className="font-medium text-gray-900">UPI / QR</p>
                         <p className="text-xs text-gray-500">Google Pay, PhonePe, Paytm & more</p>
@@ -324,7 +290,7 @@ const Checkout = () => {
                   <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                     <RadioGroupItem value="card" id="card" />
                     <Label htmlFor="card" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <CreditCard className="h-5 w-5 text-purple-600" />
+                      <CreditCard className="h-5 w-5 text-dusty-rose" />
                       <div>
                         <p className="font-medium text-gray-900">Credit / Debit Card</p>
                         <p className="text-xs text-gray-500">Visa, Mastercard, Amex, RuPay & more</p>
@@ -348,7 +314,7 @@ const Checkout = () => {
                   <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                     <RadioGroupItem value="netbanking" id="netbanking" />
                     <Label htmlFor="netbanking" className="flex items-center gap-3 cursor-pointer flex-1">
-                      <Building2 className="h-5 w-5 text-orange-600" />
+                      <Building2 className="h-5 w-5 text-dusty-rose" />
                       <div>
                         <p className="font-medium text-gray-900">Net Banking</p>
                         <p className="text-xs text-gray-500">All major banks supported</p>
@@ -393,10 +359,10 @@ const Checkout = () => {
                     <span className="text-lg font-bold text-gray-900">₹{cartTotal.toLocaleString()}</span>
                   </div>
                 </div>
-                <Button 
-                  onClick={handlePaymentSubmit} 
-                  size="lg" 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                <Button
+                  onClick={handlePaymentSubmit}
+                  size="lg"
+                  className="w-full bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md"
                 >
                   <Wallet className="h-4 w-4 mr-2" />
                   Place Order
@@ -409,6 +375,74 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+
+      {/* Address Selection Dialog */}
+      <Dialog open={isSelectingAddress} onOpenChange={setIsSelectingAddress}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Select Delivery Address</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 max-h-[400px] overflow-y-auto">
+            {user?.addresses && user.addresses.length > 0 ? (
+              <>
+                {user.addresses.map((address) => (
+                  <div
+                    key={address.id}
+                    onClick={() => handleSelectAddress(address)}
+                    className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedAddress?.id === address.id
+                      ? 'border-dusty-rose bg-dusty-rose/5'
+                      : 'hover:border-gray-400'
+                      }`}
+                  >
+                    <p className="font-semibold text-gray-900">{address.fullName}</p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {address.address}, {address.city}, {address.state} - {address.zip}
+                    </p>
+                    {address.isDefault && (
+                      <span className="inline-block mt-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                        Default
+                      </span>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  onClick={() => {
+                    setIsSelectingAddress(false);
+                    setIsAddingAddress(true);
+                  }}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add New Address
+                </Button>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-600 mb-4">No addresses found</p>
+                <Button
+                  onClick={() => {
+                    setIsSelectingAddress(false);
+                    setIsAddingAddress(true);
+                  }}
+                  className="bg-dusty-rose hover:bg-dusty-rose/90 text-white"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Address
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Address Dialog */}
+      <AddressForm
+        isOpen={isAddingAddress}
+        onClose={() => setIsAddingAddress(false)}
+        onSubmit={handleAddAddress}
+        mode="add"
+      />
     </div>
   );
 };

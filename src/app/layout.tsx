@@ -29,7 +29,7 @@ export const viewport = {
   maximumScale: 1.0,
   minimumScale: 1.0,
   userScalable: false,
-  themeColor: "#9333ea",
+  themeColor: "#C4847A",
   viewportFit: "cover",
   interactiveWidget: "resizes-visual",
 };
@@ -52,7 +52,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${outfit.variable} font-sans overflow-x-hidden w-screen max-w-[100vw]`}>
         <Providers>
           <TooltipProvider>
-            <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-x-hidden max-w-[100vw] w-screen">
+            <div className="flex min-h-screen bg-light-neutral overflow-x-hidden max-w-[100vw] w-screen">
               <div className="flex-1 flex flex-col w-full max-w-[100vw] overflow-x-hidden">
                 <TopHeader />
                 <main className="pt-16 flex-1 overflow-x-hidden w-full max-w-[100vw]">
@@ -92,7 +92,22 @@ export default function RootLayout({
               </Button>
             </div>
             <Toaster />
-            <Sonner position="top-right" toastOptions={{ style: { zIndex: 99999, marginTop: '4rem' } }} />
+            <Sonner
+              position="top-center"
+              expand={true}
+              visibleToasts={3}
+              toastOptions={{
+                style: {
+                  zIndex: 99999,
+                  marginTop: '5rem',
+                  background: 'white',
+                  color: '#1f2937',
+                  border: '1px solid #e5e7eb',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                },
+                className: 'font-sans'
+              }}
+            />
           </TooltipProvider>
         </Providers>
       </body>

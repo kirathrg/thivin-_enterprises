@@ -32,7 +32,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
         // Check if already in standalone mode (installed)
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone;
         console.log("Is standalone mode:", isStandalone);
-        
+
         if (isStandalone) {
             console.log("App already installed (standalone mode)");
             return;
@@ -64,7 +64,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
             setPromptInstall(null);
             setIsInstallable(false);
         };
-        
+
         window.addEventListener("appinstalled", installHandler);
 
         // Debug: Check after a delay if event fired
@@ -81,17 +81,17 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
 
     const onClick = async () => {
         const currentPrompt = promptInstall || deferredPrompt;
-        
+
         console.log("Install button clicked");
         console.log("Current prompt exists?", !!currentPrompt);
-        
+
         if (!currentPrompt) {
             console.error("❌ No install prompt available");
             console.log("This usually means:");
             console.log("1. PWA criteria not met");
             console.log("2. App already installed");
             console.log("3. User previously dismissed install");
-            
+
             toast.error("Installation not available right now. Try refreshing the page.");
             onClose();
             return;
@@ -101,10 +101,10 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
             console.log("📱 Showing native install prompt...");
             // Show the native install prompt
             await currentPrompt.prompt();
-            
+
             // Wait for the user to respond to the prompt
             const { outcome } = await currentPrompt.userChoice;
-            
+
             console.log(`✅ User response: ${outcome}`);
 
             if (outcome === 'accepted') {
@@ -117,7 +117,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                 console.log("❌ User dismissed installation");
                 toast.info("Installation cancelled");
             }
-            
+
             onClose();
         } catch (error) {
             console.error("❌ Installation error:", error);
@@ -139,7 +139,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
         <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-300">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 flex items-center justify-between">
+                <div className="bg-dusty-rose px-4 py-3 flex items-center justify-between">
                     <h3 className="text-white font-semibold text-base">Install Thivin Enterprises</h3>
                     <button
                         onClick={handleClose}
@@ -153,7 +153,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                 <div className="p-6">
                     <div className="flex items-center gap-4 mb-6">
                         {/* App Icon */}
-                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-purple-600 to-pink-600">
+                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-dusty-rose">
                             <Image
                                 src="/logo.png"
                                 alt="Thivin Enterprises"
@@ -162,7 +162,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                                 className="object-cover"
                             />
                         </div>
-                        
+
                         {/* App Info */}
                         <div className="flex-1">
                             <h4 className="font-semibold text-gray-900 text-lg mb-1">
@@ -212,7 +212,7 @@ export default function PWAInstallPrompt({ isOpen, onClose }: PWAInstallPromptPr
                         </button>
                         <button
                             onClick={onClick}
-                            className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium text-sm rounded-lg transition-all shadow-lg"
+                            className="flex-1 px-4 py-3 bg-dusty-rose hover:bg-dusty-rose/90 text-white font-medium text-sm rounded-lg transition-all shadow-lg"
                         >
                             Install
                         </button>

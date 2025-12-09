@@ -16,14 +16,14 @@ const ProductsPage = () => {
   );
 
   return (
-    <div className="w-full min-h-[calc(100vh-64px)] bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 relative z-10">
+    <div className="w-full min-h-[calc(100vh-64px)] bg-light-neutral relative z-10">
       <div className="container mx-auto px-4 py-4 md:px-8 md:py-8">
         <div className="flex flex-col items-center justify-center mb-12 mt-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-center text-charcoal mb-4">
           Our Products
         </h1>
-        <p className="text-purple-900 mb-4">Discover our premium collection</p>
-        <Badge className="text-base px-4 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white">{filteredProducts.length} Products Available</Badge>
+        <p className="text-gray-600 mb-4">Discover our premium collection</p>
+        <Badge className="text-base px-4 py-1.5 bg-dusty-rose text-white">{filteredProducts.length} Products Available</Badge>
       </div>
       
       {filteredProducts.length === 0 ? (

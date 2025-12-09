@@ -24,6 +24,7 @@ const loginSchema = z.object({
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[0-9]+$/, "Phone number must contain only digits"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -36,8 +37,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; password?: string }>({});
   const [authError, setAuthError] = useState<string>("");
   const { login, signup } = useAuthStore();
 
@@ -62,12 +64,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         }
       } else {
         // Validate signup form
-        const validatedData = signupSchema.parse({ name, email, password });
-        const success = await signup(validatedData.name, validatedData.email, validatedData.password);
+        const validatedData = signupSchema.parse({ name, email, phone, password });
+        const success = await signup(validatedData.name, validatedData.email, validatedData.phone, validatedData.password);
         if (success) {
           onClose();
           setName("");
           setEmail("");
+          setPhone("");
           setPassword("");
           setAuthError("");
         } else {
@@ -104,7 +107,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               : "Create a new account to get started."}
           </DialogDescription>
         </DialogHeader>
-        
+
         {authError && (
           <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-start gap-2">
             <svg className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -115,7 +118,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           {!isLogin && (
             <div className="space-y-2">
@@ -152,6 +155,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             />
             {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
           </div>
+          {!isLogin && (
+            <div className="space-y-2">
+              <Label htmlFor="phone">
+                Phone Number
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  setErrors({ ...errors, phone: undefined });
+                }}
+                placeholder="Enter your phone number"
+                className={errors.phone ? "border-red-500" : ""}
+              />
+              {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="password">
               Password
@@ -169,10 +191,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             />
             {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
           </div>
-          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+          <Button type="submit" className="w-full bg-dusty-rose hover:bg-dusty-rose/90 text-white rounded-md">
             {isLogin ? "Login" : "Sign Up"}
           </Button>
-          
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
@@ -185,7 +207,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <Button
             type="button"
             variant="outline"
-            className="w-full border-gray-300 hover:bg-gray-50"
+            className="w-full border-gray-300 hover:bg-gray-50 active:bg-gray-100 text-charcoal"
             onClick={handleGoogleAuth}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -212,7 +234,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <Button
           variant="link"
           onClick={() => setIsLogin(!isLogin)}
-          className="text-blue-600 hover:text-blue-700"
+          className="text-dusty-rose hover:text-dusty-rose/90"
         >
           {isLogin
             ? "Don't have an account? Sign Up"

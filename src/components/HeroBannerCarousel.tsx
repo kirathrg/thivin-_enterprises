@@ -62,6 +62,7 @@ export default function HeroBannerCarousel() {
         skipSnaps: false,
         dragFree: false,
         containScroll: 'trimSnaps',
+        watchDrag: true,
     });
 
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -108,7 +109,7 @@ export default function HeroBannerCarousel() {
     return (
         <>
             {/* Full-screen Background Carousel */}
-            <div className="absolute inset-0 overflow-hidden w-full h-full" ref={emblaRef}>
+            <div className="absolute inset-0 overflow-hidden w-full h-full z-0" ref={emblaRef} style={{ touchAction: 'none' }}>
                 <div className="flex h-full w-full max-w-full">
                     {banners.map((banner) => (
                         <div
@@ -198,9 +199,9 @@ export default function HeroBannerCarousel() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 pointer-events-none" />
 
             {/* Dynamic Content Overlay */}
-            <div className="absolute inset-0 z-10 flex items-center">
+            <div className="absolute inset-0 z-10 flex items-center pointer-events-none">
                 <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
-                    <div className="text-left max-w-2xl">
+                    <div className="text-left max-w-2xl pointer-events-auto">
                         {/* Animated Title - Slides from left with blur */}
                         <h1
                             key={`title-${selectedIndex}`}
@@ -283,7 +284,7 @@ export default function HeroBannerCarousel() {
                 </div>
             </div>
 
-            {/* Navigation Arrow - Right side only, hidden on mobile */}
+            {/* Navigation Arrow - Right side only, Desktop */}
             <button
                 onClick={scrollNext}
                 className="hidden md:block absolute right-8 md:right-20 top-1/2 -translate-y-1/2 z-20 group animate-pulse"
